@@ -41,6 +41,17 @@
   if (openStudioBtn) {
     openStudioBtn.addEventListener("click", () => {
       chrome.tabs.create({ url: chrome.runtime.getURL("studio.html") });
+      if (typeof chrome !== "undefined" && chrome.sidePanel && typeof chrome.sidePanel.close === "function") {
+        try {
+          if (chrome.windows && typeof chrome.windows.getCurrent === "function") {
+            chrome.windows.getCurrent((win) => {
+              if (win && typeof win.id === "number") {
+                chrome.sidePanel.close({ windowId: win.id }).catch(() => {});
+              }
+            });
+          }
+        } catch (_) {}
+      }
       if (typeof window !== "undefined" && typeof window.close === "function") {
         window.close();
       }
@@ -56,10 +67,21 @@
             sendResponse({ ok: true });
           } catch (_) {}
         }
+        if (typeof chrome !== "undefined" && chrome.sidePanel && typeof chrome.sidePanel.close === "function") {
+          try {
+            if (chrome.windows && typeof chrome.windows.getCurrent === "function") {
+              chrome.windows.getCurrent((win) => {
+                if (win && typeof win.id === "number") {
+                  chrome.sidePanel.close({ windowId: win.id }).catch(() => {});
+                }
+              });
+            }
+          } catch (_) {}
+        }
         if (typeof window !== "undefined" && typeof window.close === "function") {
           window.close();
         }
-        return true;
+        return false;
       }
     });
   }

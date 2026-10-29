@@ -232,23 +232,25 @@ function openWebStudio(windowId) {
   try {
     if (typeof windowId === "number") {
       chrome.sidePanel?.close?.({ windowId })?.catch?.(() => {});
-    } else {
-      chrome.sidePanel?.close?.()?.catch?.(() => {});
     }
   } catch (_) {}
 
   if (typeof windowId !== "number" && chrome.windows && typeof chrome.windows.getLastFocused === "function") {
     try {
       chrome.windows.getLastFocused((win) => {
-        if (win && win.id) {
+        if (win && typeof win.id === "number") {
           chrome.sidePanel?.close?.({ windowId: win.id })?.catch?.(() => {});
         }
       });
     } catch (_) {}
   }
 
-  // 3. Ouvrir l'onglet du Studio Web
-  chrome.tabs.create({ url: chrome.runtime.getURL("studio.html") });
+  // 3. Ouvrir l'onglet du Studio Web (dans la fenêtre cible si connue)
+  const tabCreateOptions = { url: chrome.runtime.getURL("studio.html") };
+  if (typeof windowId === "number") {
+    tabCreateOptions.windowId = windowId;
+  }
+  chrome.tabs.create(tabCreateOptions);
 }
 
 if (chrome.contextMenus && chrome.contextMenus.onClicked) {
@@ -330,25 +332,27 @@ async function findTargetTab() {
 // Relais des messages
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "OPEN_STUDIO") {
-    const windowId = (sender && sender.tab) ? sender.tab.windowId : undefined;
+    const windowId = (message && typeof message.windowId === "number")
+      ? message.windowId
+      : ((sender && sender.tab) ? sender.tab.windowId : undefined);
     openWebStudio(windowId);
     sendResponse({ ok: true });
     return false;
   }
 
   if (message.type === "CLOSE_SIDEPANEL") {
-    const windowId = (sender && sender.tab) ? sender.tab.windowId : undefined;
+    const windowId = (message && typeof message.windowId === "number")
+      ? message.windowId
+      : ((sender && sender.tab) ? sender.tab.windowId : undefined);
     try {
       if (typeof windowId === "number") {
         chrome.sidePanel?.close?.({ windowId })?.catch?.(() => {});
-      } else {
-        chrome.sidePanel?.close?.()?.catch?.(() => {});
       }
     } catch (_) {}
     if (typeof windowId !== "number" && chrome.windows && typeof chrome.windows.getLastFocused === "function") {
       try {
         chrome.windows.getLastFocused((win) => {
-          if (win && win.id) {
+          if (win && typeof win.id === "number") {
             chrome.sidePanel?.close?.({ windowId: win.id })?.catch?.(() => {});
           }
         });

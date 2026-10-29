@@ -4,6 +4,7 @@
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');
+const vm = require('vm');
 
 console.log('=== TEST SUITE: Side Panel Auto-Close on Web Studio Open ===\n');
 
@@ -15,6 +16,7 @@ console.log('--- Test 1: Static Architecture Validation (sidepanel.js, studio.js
 const sidepanelJs = fs.readFileSync(path.join(__dirname, 'sidepanel.js'), 'utf8');
 const studioJs = fs.readFileSync(path.join(__dirname, 'studio.js'), 'utf8');
 const backgroundJs = fs.readFileSync(path.join(__dirname, 'background.js'), 'utf8');
+const i18nJs = fs.readFileSync(path.join(__dirname, 'i18n.js'), 'utf8');
 
 // 1.1 sidepanel.js checks
 assert.ok(
@@ -72,242 +74,245 @@ assert.ok(
 
 console.log('✅ Test 1 PASSED: All 3 source files contain required auto-close patterns.\n');
 
-// ---------------------------------------------------------------------
-// Test 2: sidepanel.js Unit Simulation — Button Click & Message Listener
-// ---------------------------------------------------------------------
-console.log('--- Test 2: sidepanel.js Unit Simulation (Click & Message) ---');
-
-// Simulate openStudioBtn click in sidepanel.js
-{
-  let windowClosed = false;
-  let createdUrl = null;
-
-  const mockWindow = {
-    close: () => {
-      windowClosed = true;
-    }
-  };
-
-  const mockChrome = {
-    tabs: {
-      create: (opts) => {
-        createdUrl = opts.url;
-      }
-    },
-    runtime: {
-      getURL: (page) => `chrome-extension://test-id/${page}`,
-      onMessage: {
-        addListener: () => {}
-      }
-    }
-  };
-
-  // Simulate handler logic from sidepanel.js
-  const clickHandler = () => {
-    mockChrome.tabs.create({ url: mockChrome.runtime.getURL("studio.html") });
-    if (typeof mockWindow !== "undefined" && typeof mockWindow.close === "function") {
-      mockWindow.close();
-    }
-  };
-
-  clickHandler();
-
-  assert.strictEqual(createdUrl, 'chrome-extension://test-id/studio.html', 'Must open studio.html tab');
-  assert.strictEqual(windowClosed, true, 'window.close() must be invoked immediately on button click');
-}
-
-// Simulate CLOSE_SIDEPANEL message listener in sidepanel.js
-{
-  let windowClosed = false;
-  let responseData = null;
-
-  const mockWindow = {
-    close: () => {
-      windowClosed = true;
-    }
-  };
-
-  const messageHandler = (message, sender, sendResponse) => {
-    if (message && message.type === "CLOSE_SIDEPANEL") {
-      if (sendResponse) {
-        try {
-          sendResponse({ ok: true });
-        } catch (_) {}
-      }
-      if (typeof mockWindow !== "undefined" && typeof mockWindow.close === "function") {
-        mockWindow.close();
-      }
-      return true;
-    }
-  };
-
-  const handled = messageHandler(
-    { type: "CLOSE_SIDEPANEL" },
-    {},
-    (res) => { responseData = res; }
-  );
-
-  assert.strictEqual(handled, true, 'Message handler must return true for async handling/confirmation');
-  assert.strictEqual(windowClosed, true, 'window.close() must be invoked on CLOSE_SIDEPANEL message');
-  assert.deepStrictEqual(responseData, { ok: true }, 'Response must be { ok: true }');
-}
-
-console.log('✅ Test 2 PASSED: sidepanel.js button click and message listener work correctly.\n');
+// Helper to create mock DOM elements for VM execution
+const makeEl = () => ({
+  addEventListener: () => {},
+  appendChild: () => {},
+  removeChild: () => {},
+  querySelector: () => null,
+  querySelectorAll: () => [],
+  setAttribute: () => {},
+  getAttribute: () => null,
+  style: {},
+  classList: { add: () => {}, remove: () => {}, contains: () => false },
+  getContext: () => ({})
+});
 
 // ---------------------------------------------------------------------
-// Test 3: studio.js Unit Simulation — closeSidePanelIfOpen
+// Test 2: Real sidepanel.js Execution — Button Click & Message Listener
 // ---------------------------------------------------------------------
-console.log('--- Test 3: studio.js Unit Simulation (closeSidePanelIfOpen) ---');
+console.log('--- Test 2: Real sidepanel.js Execution (Click & Message) ---');
 
 {
-  let sentMessage = null;
+  let windowClosedCount = 0;
+  let createdTabOptions = null;
   let sidePanelClosedWith = null;
+  const messageListeners = [];
+  const elementListeners = {};
 
-  const mockChrome = {
-    runtime: {
-      sendMessage: (msg, cb) => {
-        sentMessage = msg;
-        if (cb) cb();
-      },
-      lastError: null
-    },
-    sidePanel: {
-      close: async (options) => {
-        sidePanelClosedWith = options;
-      }
-    },
-    windows: {
-      getCurrent: (cb) => {
-        cb({ id: 888 });
-      }
-    }
+  const openStudioEl = makeEl();
+  openStudioEl.addEventListener = (ev, cb) => {
+    elementListeners[ev] = cb;
   };
 
-  // Re-run closeSidePanelIfOpen logic with mockChrome
-  const closeSidePanelIfOpen = () => {
-    if (typeof mockChrome === "undefined") return;
-
-    if (mockChrome.runtime && typeof mockChrome.runtime.sendMessage === "function") {
-      try {
-        mockChrome.runtime.sendMessage({ type: "CLOSE_SIDEPANEL" }, () => {
-          void mockChrome.runtime.lastError;
-        });
-      } catch (_) {}
-    }
-
-    if (mockChrome.sidePanel && typeof mockChrome.sidePanel.close === "function") {
-      if (mockChrome.windows && typeof mockChrome.windows.getCurrent === "function") {
-        try {
-          mockChrome.windows.getCurrent((currentWin) => {
-            const windowId = currentWin ? currentWin.id : undefined;
-            try {
-              if (typeof windowId === "number") {
-                mockChrome.sidePanel?.close?.({ windowId })?.catch?.(() => {});
-              } else {
-                mockChrome.sidePanel?.close?.()?.catch?.(() => {});
-              }
-            } catch (_) {}
-          });
-        } catch (_) {
-          try {
-            mockChrome.sidePanel?.close?.()?.catch?.(() => {});
-          } catch (_) {}
+  const context = {
+    document: {
+      getElementById: (id) => (id === 'openStudioBtn' ? openStudioEl : makeEl()),
+      createElement: () => makeEl(),
+      querySelectorAll: () => []
+    },
+    window: {
+      close: () => { windowClosedCount++; }
+    },
+    chrome: {
+      runtime: {
+        getURL: (p) => 'chrome-extension://test-id/' + p,
+        sendMessage: () => {},
+        onMessage: {
+          addListener: (cb) => { messageListeners.push(cb); }
         }
-      } else {
-        try {
-          mockChrome.sidePanel?.close?.()?.catch?.(() => {});
-        } catch (_) {}
+      },
+      tabs: {
+        create: (opts) => { createdTabOptions = opts; }
+      },
+      sidePanel: {
+        close: async (opts) => { sidePanelClosedWith = opts; }
+      },
+      windows: {
+        getCurrent: (cb) => { cb({ id: 101 }); }
+      },
+      storage: {
+        local: {
+          get: (keys, cb) => { if (cb) cb({}); },
+          set: (obj, cb) => { if (cb) cb(); }
+        },
+        onChanged: { addListener: () => {} }
       }
-    }
+    },
+    console: console
   };
+  context.window.window = context.window;
 
-  closeSidePanelIfOpen();
+  vm.createContext(context);
+  vm.runInContext(i18nJs, context);
+  context.FlowI18n = context.window.FlowI18n;
+  vm.runInContext(sidepanelJs, context);
 
-  assert.deepStrictEqual(sentMessage, { type: "CLOSE_SIDEPANEL" }, 'Must broadcast CLOSE_SIDEPANEL message');
-  assert.deepStrictEqual(sidePanelClosedWith, { windowId: 888 }, 'Must call chrome.sidePanel.close with windowId');
+  // 1. Test clicking openStudioBtn in real sidepanel.js
+  assert.ok(elementListeners['click'], 'Click listener must be registered on openStudioBtn');
+  elementListeners['click']();
+  assert.strictEqual(windowClosedCount, 1, 'window.close() must be called on click');
+  assert.strictEqual(createdTabOptions?.url, 'chrome-extension://test-id/studio.html');
+  assert.strictEqual(sidePanelClosedWith?.windowId, 101, 'chrome.sidePanel.close must be called with windowId');
+
+  // 2. Test receiving CLOSE_SIDEPANEL message in real sidepanel.js
+  let responseData = null;
+  sidePanelClosedWith = null;
+  for (const listener of messageListeners) {
+    listener({ type: 'CLOSE_SIDEPANEL' }, {}, (r) => { responseData = r; });
+  }
+  assert.strictEqual(windowClosedCount, 2, 'window.close() must be called on CLOSE_SIDEPANEL message');
+  assert.strictEqual(sidePanelClosedWith?.windowId, 101, 'chrome.sidePanel.close must be called with windowId');
+  assert.strictEqual(responseData?.ok, true, 'Response must be { ok: true }');
 }
 
-console.log('✅ Test 3 PASSED: studio.js closeSidePanelIfOpen broadcasts and calls sidePanel.close.\n');
+console.log('✅ Test 2 PASSED: Real sidepanel.js click and message listener work correctly.\n');
 
 // ---------------------------------------------------------------------
-// Test 4: background.js Unit Simulation — openWebStudio & CLOSE_SIDEPANEL
+// Test 3: Real studio.js Execution — closeSidePanelIfOpen
 // ---------------------------------------------------------------------
-console.log('--- Test 4: background.js Unit Simulation (openWebStudio & Messages) ---');
+console.log('--- Test 3: Real studio.js Execution (closeSidePanelIfOpen) ---');
+
+{
+  const sentMessages = [];
+  let closedWith = null;
+
+  const context = {
+    document: {
+      getElementById: () => makeEl(),
+      createElement: () => makeEl(),
+      querySelectorAll: () => []
+    },
+    window: {
+      addEventListener: () => {}
+    },
+    chrome: {
+      runtime: {
+        getURL: (p) => 'chrome-extension://test-id/' + p,
+        sendMessage: (msg, cb) => { sentMessages.push(msg); if (cb) cb(); },
+        onMessage: { addListener: () => {} }
+      },
+      sidePanel: {
+        close: async (opts) => { closedWith = opts; }
+      },
+      windows: {
+        getCurrent: (cb) => { cb({ id: 888 }); }
+      },
+      tabs: {
+        create: () => {}
+      },
+      storage: {
+        local: {
+          get: (keys, cb) => { if (cb) cb({}); },
+          set: (obj, cb) => { if (cb) cb(); }
+        },
+        onChanged: { addListener: () => {} }
+      }
+    },
+    console: console
+  };
+  context.window.window = context.window;
+
+  vm.createContext(context);
+  vm.runInContext(i18nJs, context);
+  context.FlowI18n = context.window.FlowI18n;
+  vm.runInContext(studioJs, context);
+
+  assert.ok(sentMessages.some(m => m && m.type === 'CLOSE_SIDEPANEL'), 'studio.js must broadcast CLOSE_SIDEPANEL');
+  assert.strictEqual(closedWith?.windowId, 888, 'studio.js must call chrome.sidePanel.close with windowId: 888');
+}
+
+console.log('✅ Test 3 PASSED: Real studio.js closeSidePanelIfOpen broadcasts and calls sidePanel.close.\n');
+
+// ---------------------------------------------------------------------
+// Test 4: Real background.js Execution — openWebStudio & Message Handlers
+// ---------------------------------------------------------------------
+console.log('--- Test 4: Real background.js Execution (openWebStudio & Messages) ---');
 
 {
   let broadcastMsg = null;
   let closedWindowId = null;
-  let tabCreatedUrl = null;
+  let createdTabOpts = null;
+  let onMessageListener = null;
+  let contextMenuListener = null;
 
-  const mockChrome = {
-    runtime: {
-      getURL: (p) => `chrome-extension://flow-ext/${p}`,
-      sendMessage: (msg, cb) => {
-        broadcastMsg = msg;
-        if (cb) cb();
+  const context = {
+    chrome: {
+      runtime: {
+        onInstalled: { addListener: () => {} },
+        onStartup: { addListener: () => {} },
+        onMessage: { addListener: (cb) => { onMessageListener = cb; } },
+        getURL: (p) => 'chrome-extension://flow-ext/' + p,
+        sendMessage: (msg, cb) => { broadcastMsg = msg; if (cb) cb(); },
+        lastError: null
       },
-      lastError: null
-    },
-    sidePanel: {
-      close: async (options) => {
-        closedWindowId = options?.windowId;
+      contextMenus: {
+        create: () => {},
+        onClicked: { addListener: (cb) => { contextMenuListener = cb; } }
+      },
+      tabs: {
+        create: (opts) => { createdTabOpts = opts; },
+        query: async () => []
+      },
+      sidePanel: {
+        setPanelBehavior: async () => {},
+        close: async (opts) => { closedWindowId = opts?.windowId; }
+      },
+      windows: {
+        getLastFocused: (cb) => { cb({ id: 999 }); }
+      },
+      storage: {
+        local: { get: () => {} },
+        onChanged: { addListener: () => {} }
+      },
+      declarativeNetRequest: {
+        getDynamicRules: async () => [],
+        updateDynamicRules: async () => {}
       }
     },
-    windows: {
-      getLastFocused: (cb) => {
-        cb({ id: 999 });
-      }
-    },
-    tabs: {
-      create: (opts) => {
-        tabCreatedUrl = opts.url;
-      }
-    }
+    console: console,
+    setInterval: () => {},
+    Map: Map,
+    Date: Date
   };
 
-  const openWebStudio = (windowId) => {
-    if (mockChrome.runtime && typeof mockChrome.runtime.sendMessage === "function") {
-      try {
-        mockChrome.runtime.sendMessage({ type: "CLOSE_SIDEPANEL" }, () => {
-          void mockChrome.runtime.lastError;
-        });
-      } catch (_) {}
-    }
+  vm.createContext(context);
+  vm.runInContext(backgroundJs, context);
 
-    try {
-      if (typeof windowId === "number") {
-        mockChrome.sidePanel?.close?.({ windowId })?.catch?.(() => {});
-      } else {
-        mockChrome.sidePanel?.close?.()?.catch?.(() => {});
-      }
-    } catch (_) {}
-
-    if (typeof windowId !== "number" && mockChrome.windows && typeof mockChrome.windows.getLastFocused === "function") {
-      try {
-        mockChrome.windows.getLastFocused((win) => {
-          if (win && win.id) {
-            mockChrome.sidePanel?.close?.({ windowId: win.id })?.catch?.(() => {});
-          }
-        });
-      } catch (_) {}
-    }
-
-    mockChrome.tabs.create({ url: mockChrome.runtime.getURL("studio.html") });
-  };
-
-  // Case 1: Called with windowId 123 (e.g. from context menu)
-  openWebStudio(123);
-  assert.deepStrictEqual(broadcastMsg, { type: "CLOSE_SIDEPANEL" });
+  // 1. Context menu open_flow_studio with explicit windowId 123
+  contextMenuListener({ menuItemId: 'open_flow_studio' }, { windowId: 123 });
+  assert.strictEqual(broadcastMsg?.type, 'CLOSE_SIDEPANEL');
   assert.strictEqual(closedWindowId, 123);
-  assert.strictEqual(tabCreatedUrl, 'chrome-extension://flow-ext/studio.html');
+  assert.strictEqual(createdTabOpts.url, 'chrome-extension://flow-ext/studio.html');
+  assert.strictEqual(createdTabOpts.windowId, 123, 'Must route new tab to explicit windowId');
 
-  // Case 2: Called without windowId (falls back to getLastFocused)
+  // 2. Context menu fallback when tab is missing
   closedWindowId = null;
-  openWebStudio(undefined);
+  createdTabOpts = null;
+  contextMenuListener({ menuItemId: 'open_flow_studio' }, null);
   assert.strictEqual(closedWindowId, 999, 'Must fall back to getLastFocused windowId');
+  assert.strictEqual(createdTabOpts.url, 'chrome-extension://flow-ext/studio.html');
+  assert.strictEqual(createdTabOpts.windowId, undefined);
+
+  // 3. OPEN_STUDIO message handler with windowId
+  closedWindowId = null;
+  createdTabOpts = null;
+  let resp = null;
+  onMessageListener({ type: 'OPEN_STUDIO', windowId: 456 }, {}, (r) => { resp = r; });
+  assert.strictEqual(closedWindowId, 456);
+  assert.strictEqual(createdTabOpts.url, 'chrome-extension://flow-ext/studio.html');
+  assert.strictEqual(createdTabOpts.windowId, 456);
+  assert.strictEqual(resp?.ok, true);
+
+  // 4. CLOSE_SIDEPANEL message handler with explicit message.windowId
+  closedWindowId = null;
+  resp = null;
+  onMessageListener({ type: 'CLOSE_SIDEPANEL', windowId: 789 }, {}, (r) => { resp = r; });
+  assert.strictEqual(closedWindowId, 789);
+  assert.strictEqual(resp?.ok, true);
 }
 
-console.log('✅ Test 4 PASSED: background.js openWebStudio handles both explicit and fallback windowId.\n');
+console.log('✅ Test 4 PASSED: Real background.js openWebStudio handles explicit and fallback windowId.\n');
 
 // ---------------------------------------------------------------------
 // Test 5: Graceful Degradation & Resilience (Edge Cases)
@@ -328,9 +333,8 @@ console.log('--- Test 5: Resilience & Unsupported API Edge Cases ---');
       }
     };
 
-    // studio.js closeSidePanelIfOpen must not throw
     if (mockChrome.sidePanel && typeof mockChrome.sidePanel.close === "function") {
-      mockChrome.sidePanel.close();
+      mockChrome.sidePanel.close({ windowId: 1 });
     }
   }, 'Must safely skip chrome.sidePanel.close if not supported');
 }
@@ -364,6 +368,23 @@ console.log('--- Test 5: Resilience & Unsupported API Edge Cases ---');
       testWindow.close();
     }
   }, 'Must safely handle environments without window.close');
+}
+
+// 5.4 chrome.sidePanel.close never invoked with 0 arguments
+{
+  let zeroArgCalled = false;
+  const mockChrome = {
+    sidePanel: {
+      close: (opts) => {
+        if (!opts || typeof opts !== 'object') zeroArgCalled = true;
+      }
+    }
+  };
+  const winId = undefined;
+  if (typeof winId === 'number') {
+    mockChrome.sidePanel.close({ windowId: winId });
+  }
+  assert.strictEqual(zeroArgCalled, false, 'sidePanel.close must not be called with undefined or 0 args');
 }
 
 console.log('✅ Test 5 PASSED: Robust error handling and graceful degradation verified.\n');

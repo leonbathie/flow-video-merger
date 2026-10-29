@@ -2076,22 +2076,34 @@
         try {
           chrome.windows.getCurrent((currentWin) => {
             const windowId = currentWin ? currentWin.id : undefined;
-            try {
-              if (typeof windowId === "number") {
-                chrome.sidePanel?.close?.({ windowId })?.catch?.(() => {});
-              } else {
-                chrome.sidePanel?.close?.()?.catch?.(() => {});
-              }
-            } catch (_) {}
+            if (typeof windowId === "number") {
+              chrome.sidePanel?.close?.({ windowId })?.catch?.(() => {});
+            } else if (chrome.windows && typeof chrome.windows.getLastFocused === "function") {
+              chrome.windows.getLastFocused((lastWin) => {
+                if (lastWin && typeof lastWin.id === "number") {
+                  chrome.sidePanel?.close?.({ windowId: lastWin.id })?.catch?.(() => {});
+                }
+              });
+            }
           });
         } catch (_) {
-          try {
-            chrome.sidePanel?.close?.()?.catch?.(() => {});
-          } catch (_) {}
+          if (chrome.windows && typeof chrome.windows.getLastFocused === "function") {
+            try {
+              chrome.windows.getLastFocused((lastWin) => {
+                if (lastWin && typeof lastWin.id === "number") {
+                  chrome.sidePanel?.close?.({ windowId: lastWin.id })?.catch?.(() => {});
+                }
+              });
+            } catch (_) {}
+          }
         }
-      } else {
+      } else if (chrome.windows && typeof chrome.windows.getLastFocused === "function") {
         try {
-          chrome.sidePanel?.close?.()?.catch?.(() => {});
+          chrome.windows.getLastFocused((lastWin) => {
+            if (lastWin && typeof lastWin.id === "number") {
+              chrome.sidePanel?.close?.({ windowId: lastWin.id })?.catch?.(() => {});
+            }
+          });
         } catch (_) {}
       }
     }
