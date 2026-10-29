@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flow Video Studio — Web Interface & Smart Assembly</title>
+  <link rel="stylesheet" href="studio.css" />
+</head>
+<body>
+  <!-- Top Navigation Bar -->
+  <header class="studio-header">
+    <div class="brand-container">
+      <div class="brand-icon">▶</div>
+      <div class="brand-text">
+        <h1>Flow Video Studio</h1>
+        <span class="brand-badge" data-i18n="studio_brand_badge">WEB INTERFACE & AI</span>
+      </div>
+    </div>
+
+    <!-- Sequence / Scene Selector -->
+    <div class="scene-selector-container">
+      <label for="groupSelect" data-i18n="active_scene_label">Active Sequence:</label>
+      <div class="scene-select-wrapper">
+        <select id="groupSelect" data-i18n-title="group_select_title" title="Active Sequence / Scene"></select>
+        <button id="newGroupBtn" class="secondary-btn" data-i18n="new_scene_btn" data-i18n-title="new_scene_title" title="Create a new sequence / scene">+ Scene</button>
+        <button id="renameGroupBtn" class="ghost-btn" data-i18n-title="rename_scene_title" title="Rename active scene">✏️</button>
+        <button id="deleteGroupBtn" class="ghost-btn danger-hover" data-i18n-title="delete_scene_title" title="Delete active scene">🗑️</button>
+      </div>
+    </div>
+
+    <!-- Sequence Global Stats -->
+    <div class="sequence-stats">
+      <div class="stat-pill">
+        <span class="stat-label" data-i18n="studio_clips_stat">Clips</span>
+        <span id="clipCountBadge" class="stat-value">0</span>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-label" data-i18n="studio_duration_stat">Total Duration</span>
+        <span id="totalDurationBadge" class="stat-value">0.0s</span>
+      </div>
+      <div id="boostStatsPill" class="stat-pill boost-pill hidden">
+        <span class="stat-label">⚡ Boost 4K</span>
+        <span id="boostCountBadge" class="stat-value">0</span>
+      </div>
+    </div>
+
+    <!-- Global Quick Actions & Language Selector -->
+    <div class="header-actions">
+      <!-- Language Switcher -->
+      <div class="lang-switch-wrap" role="group" aria-label="Language selector">
+        <button id="langEnBtn" class="lang-btn active" type="button" title="English">EN</button>
+        <button id="langFrBtn" class="lang-btn" type="button" title="Français">FR</button>
+      </div>
+
+      <button id="scanFlowBtn" class="primary-btn glow-btn" data-i18n-title="capture_flow_title" title="Scan and automatically capture videos from Google Flow tab">
+        🔍 <span data-i18n="capture_flow_clips">Capture Flow clips</span>
+      </button>
+      <label for="localFileInput" class="secondary-btn file-btn" data-i18n-title="import_files_title" title="Import .mp4 / .webm video clips from your computer">
+        📁 <span data-i18n="import_files_btn">+ Files</span>
+      </label>
+      <input type="file" id="localFileInput" accept="video/mp4,video/webm,video/quicktime" multiple hidden />
+    </div>
+  </header>
+
+  <!-- AI Smart Ordering Bar -->
+  <section class="ai-ordering-bar">
+    <div class="ai-bar-left">
+      <div class="ai-sparkle-icon">✨</div>
+      <div class="ai-title-block">
+        <strong data-i18n="studio_ai_title">Smart Ordering Engine</strong>
+        <span class="ai-subtitle" data-i18n="studio_ai_subtitle">Narrative, chronological, temporal & spatial analysis</span>
+      </div>
+    </div>
+
+    <div class="ai-controls">
+      <div class="strategy-group">
+        <label for="sortStrategySelect" data-i18n="studio_strategy_label">Ordering strategy:</label>
+        <select id="sortStrategySelect">
+          <option value="smart" selected data-i18n="sort_studio_smart">🧠 Hybrid AI (Scenes, Narrative Arc & Chronology) [Recommended]</option>
+          <option value="explicit_scene" data-i18n="sort_studio_explicit">🎬 Scene Numbering (Scene 1, Scene 2, Shot 3...)</option>
+          <option value="narrative" data-i18n="sort_studio_narrative">📖 Narrative Arc (Exposition → Journey → Climax → Resolution)</option>
+          <option value="temporal" data-i18n="sort_studio_temporal">⏳ Time Progression (Dawn → Morning → Sunset → Night)</option>
+          <option value="spatial_canvas" data-i18n="sort_studio_spatial">📍 Flow Canvas Layout (Row by Row, Left → Right)</option>
+          <option value="chronological" data-i18n="sort_studio_chronological">🕒 Google Flow Generation Chronology (1 → N)</option>
+          <option value="natural" data-i18n="sort_studio_natural">🔤 Natural Sort by Name / Prompt (01, 02, 03...)</option>
+          <option value="reverse" data-i18n="sort_studio_reverse">🔄 Reverse Order</option>
+        </select>
+      </div>
+
+      <button id="applyAiSortBtn" class="ai-action-btn" data-i18n="studio_reorder_btn" data-i18n-title="studio_reorder_title" title="Analyze sequence and reorder intelligently">
+        ✨ Reorder with AI
+      </button>
+
+      <button id="toggleAiReportBtn" class="ghost-btn" data-i18n-title="studio_ai_explanations_title" title="Show detailed explanation of AI ordering">
+        💡 <span id="toggleAiReportLabel" data-i18n="studio_ai_explanations_btn_text">AI Explanations</span> (<span id="aiConfidenceBadge">--%</span>)
+      </button>
+    </div>
+  </section>
+
+  <!-- AI Explanations Retractable Drawer -->
+  <div id="aiReportDrawer" class="ai-report-drawer hidden">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <span class="drawer-icon">🧠</span>
+        <h3 data-i18n="studio_ai_report_title">Smart Ordering Engine Analysis Report</h3>
+      </div>
+      <button id="closeAiReportBtn" class="close-drawer-btn" data-i18n-title="studio_close_drawer_title" title="Close panel">✕</button>
+    </div>
+    <div id="aiReportContent" class="drawer-body">
+      <p class="empty-report-text" data-i18n="studio_empty_report">Click <strong>✨ Reorder with AI</strong> to generate narrative and temporal analysis for your clips.</p>
+    </div>
+  </div>
+
+  <!-- Studio Main Content (2-Column Workspace) -->
+  <main class="studio-main-layout">
+    <!-- Left Column: Storyboard / Timeline Canvas -->
+    <div class="studio-canvas-column">
+      <!-- View Mode Tabs Bar -->
+      <div class="view-mode-bar">
+        <div class="view-tabs">
+          <button id="tabStoryboardBtn" class="view-tab active" data-i18n="studio_tab_storyboard">
+            📋 Sequential Storyboard
+          </button>
+          <button id="tabTimelineBtn" class="view-tab" data-i18n="studio_tab_timeline">
+            🎞️ Editing Track / Timeline
+          </button>
+        </div>
+
+        <div class="canvas-actions">
+          <button id="clearAllBtn" class="danger-link" data-i18n="studio_clear_seq" data-i18n-title="studio_clear_seq_title" title="Clear all clips from this sequence">
+            🗑️ Clear Sequence
+          </button>
+        </div>
+      </div>
+
+      <!-- View 1: Storyboard Grid -->
+      <section id="storyboardView" class="view-pane active">
+        <div id="clipGrid" class="clip-grid"></div>
+      </section>
+
+      <!-- View 2: Interactive Timeline -->
+      <section id="timelineView" class="view-pane hidden">
+        <div class="timeline-container">
+          <div class="timeline-toolbar">
+            <div class="timeline-time-display">
+              <span id="timelineCurrentTime">00:00.0</span> / <span id="timelineTotalTime">00:00.0</span>
+            </div>
+            <div class="timeline-controls">
+              <button id="timelinePlayBtn" class="icon-btn-pill" data-i18n="studio_timeline_play">▶ Play</button>
+              <button id="timelineResetBtn" class="icon-btn-pill" data-i18n="studio_timeline_reset">⏮ Start</button>
+            </div>
+          </div>
+
+          <!-- Graduated Timeline Ruler -->
+          <div id="timelineRuler" class="timeline-ruler"></div>
+
+          <!-- Multi-Clip Video Track -->
+          <div class="timeline-track-wrapper">
+            <div class="timeline-track-header" data-i18n="studio_timeline_track_header">Video Track #01 → #N</div>
+            <div id="timelineTrack" class="timeline-track">
+              <!-- Interactive Playhead -->
+              <div id="timelinePlayhead" class="timeline-playhead">
+                <div class="playhead-handle"></div>
+                <div class="playhead-line"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Right Column: Preview Player & Export Panel -->
+    <aside class="studio-sidebar-column">
+      <!-- Continuous Video Player -->
+      <div class="player-card">
+        <div class="card-header">
+          <div class="player-title-row">
+            <h3 data-i18n="studio_player_title">Sequence Preview</h3>
+            <span id="playerStatusBadge" class="player-live-badge hidden" data-i18n="studio_player_status_playing">PLAYING</span>
+          </div>
+          <span id="playerCurrentTag" class="player-tag">#01</span>
+        </div>
+        <div class="player-wrapper">
+          <video id="sequencePlayer" controls playsinline></video>
+          <div id="playerPlaceholder" class="player-placeholder">
+            <span class="placeholder-play-icon">▶</span>
+            <span data-i18n="studio_player_placeholder">Click on a clip or "Play All"</span>
+          </div>
+        </div>
+        <div class="player-meta-row">
+          <p id="playerCaption" class="player-caption" data-i18n="studio_player_ready">Ready for continuous playback.</p>
+        </div>
+        <div class="player-buttons-row">
+          <button id="prevClipBtn" class="secondary-btn" data-i18n="studio_player_prev" title="Previous clip">⏮ Previous</button>
+          <button id="playSequenceBtn" class="primary-btn play-glow-btn" data-i18n="studio_player_play_all" title="Start or pause continuous playback of the entire sequence">▶ Play All</button>
+          <button id="nextClipBtn" class="secondary-btn" data-i18n="studio_player_next" title="Next clip">Next ⏭</button>
+          <button id="restartSequenceBtn" class="ghost-btn" data-i18n-title="studio_player_restart_title" title="Restart from first clip (#01)">🔁</button>
+        </div>
+      </div>
+
+      <!-- Assembly & Export Settings -->
+      <div class="export-card">
+        <div class="card-header">
+          <h3 data-i18n="studio_export_title">Assembly & Export</h3>
+        </div>
+
+        <div class="export-form">
+          <div class="form-group">
+            <label for="resolutionSelect" data-i18n="studio_format_label">Video Format and Resolution:</label>
+            <select id="resolutionSelect">
+              <option value="auto" data-i18n="studio_format_auto">Auto (Same as Clip #01)</option>
+              <option value="3840x2160" data-i18n="studio_format_4k_land">4K Ultra HD Landscape (3840×2160)</option>
+              <option value="1920x1080" selected data-i18n="studio_format_1080p_land">1080p Full HD Landscape (1920×1080)</option>
+              <option value="1280x720" data-i18n="studio_format_720p_land">720p HD Landscape (1280×720)</option>
+              <option value="2160x3840" data-i18n="studio_format_4k_vert">4K Vertical Shorts/Reels (2160×3840)</option>
+              <option value="1080x1920" data-i18n="studio_format_1080p_vert">1080p Vertical Shorts/Reels (1080×1920)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="transitionSelect" data-i18n="studio_trans_label">Transition between clips:</label>
+            <select id="transitionSelect">
+              <option value="0" data-i18n="studio_trans_cut">Direct cut (0s — Hard cut)</option>
+              <option value="0.25" data-i18n="studio_trans_soft">Soft dissolve (0.25s)</option>
+              <option value="0.5" data-i18n="studio_trans_cine">Cinematic dissolve (0.5s)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="bitrateSelect" data-i18n="studio_bitrate_label">Encoding Bitrate (Quality):</label>
+            <select id="bitrateSelect">
+              <option value="20000000" data-i18n="studio_bitrate_20m">Very high quality (20 Mbps — Recommended for 4K)</option>
+              <option value="12000000" selected data-i18n="studio_bitrate_12m">High quality (12 Mbps — Ideal for 1080p)</option>
+              <option value="6000000" data-i18n="studio_bitrate_6m">Balanced (6 Mbps — Compact file)</option>
+            </select>
+          </div>
+
+          <!-- Assembly Progress Bar -->
+          <div id="progressContainer" class="progress-box hidden">
+            <div class="progress-info">
+              <span id="progressStatus" data-i18n="prep_clips">Preparing clips...</span>
+              <span id="progressPercent">0%</span>
+            </div>
+            <div class="progress-track">
+              <div id="progressBarFill" class="progress-fill"></div>
+            </div>
+          </div>
+
+          <button id="mergeExportBtn" class="primary-btn merge-action-btn" data-i18n="studio_merge_btn" disabled>
+            🎬 Merge into 1 Final Video
+          </button>
+        </div>
+      </div>
+
+      <!-- Selected Clip Inspector -->
+      <div id="clipInspectorCard" class="inspector-card hidden">
+        <div class="card-header">
+          <h3 data-i18n="studio_inspector_title">Clip Inspector</h3>
+          <span id="inspectorPosition" class="badge">#01</span>
+        </div>
+        <div class="inspector-body">
+          <div class="inspector-field">
+            <label data-i18n="studio_inspector_prompt_label">Prompt / Description:</label>
+            <textarea id="inspectorPromptInput" rows="3" data-i18n-placeholder="studio_inspector_placeholder" placeholder="Clip description..."></textarea>
+          </div>
+          <div class="inspector-tags" id="inspectorTags"></div>
+          <div class="inspector-details">
+            <div><strong data-i18n="studio_inspector_duration">Duration:</strong> <span id="inspectorDuration">-</span></div>
+            <div><strong data-i18n="studio_inspector_resolution">Resolution:</strong> <span id="inspectorResolution">-</span></div>
+            <div><strong data-i18n="studio_inspector_type">Type:</strong> <span id="inspectorType">-</span></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Hidden canvas for MediaRecorder assembly engine -->
+  <canvas id="mergerCanvas" class="hidden-canvas"></canvas>
+
+  <script src="i18n.js"></script>
+  <script src="smart-order.js"></script>
+  <script src="studio.js"></script>
+</body>
+</html>

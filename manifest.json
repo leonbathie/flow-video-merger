@@ -1,0 +1,122 @@
+{
+  "manifest_version": 3,
+  "name": "Flow Video Merger — Group & Order Sequence",
+  "version": "1.2.0",
+  "description": "Smart-detects, groups with narrative & chronological ordering (#01, #02...), and merges videos generated in Google Flow (including high-resolution /boost 4K) into a single final video via Side Panel or Fullscreen Web Studio.",
+  "permissions": [
+    "sidePanel",
+    "storage",
+    "downloads",
+    "offscreen",
+    "activeTab",
+    "scripting",
+    "tabs",
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess",
+    "cookies",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "https://flow.google/*",
+    "https://*.flow.google/*",
+    "https://flow.google.com/*",
+    "https://*.flow.google.com/*",
+    "https://labs.google/*",
+    "https://*.labs.google/*",
+    "https://*.google.com/*",
+    "https://deepmind.google/*",
+    "https://*.deepmind.google/*",
+    "https://storage.googleapis.com/*",
+    "https://*.googleapis.com/*",
+    "https://*.googlevideo.com/*",
+    "https://*.googleusercontent.com/*",
+    "https://*.gstatic.com/*",
+    "*://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_corp",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "action": {
+    "default_title": "Open Flow Video Merger",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://flow.google/*",
+        "https://*.flow.google/*",
+        "https://flow.google.com/*",
+        "https://*.flow.google.com/*",
+        "https://labs.google/*",
+        "https://*.labs.google/*",
+        "https://aitestkitchen.withgoogle.com/*",
+        "https://*.aitestkitchen.withgoogle.com/*",
+        "https://*.google.com/*",
+        "https://deepmind.google/*",
+        "https://*.deepmind.google/*"
+      ],
+      "all_frames": true,
+      "match_about_blank": true,
+      "world": "MAIN",
+      "js": [
+        "flow-page-bridge.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://flow.google/*",
+        "https://*.flow.google/*",
+        "https://flow.google.com/*",
+        "https://*.flow.google.com/*",
+        "https://labs.google/*",
+        "https://*.labs.google/*",
+        "https://aitestkitchen.withgoogle.com/*",
+        "https://*.aitestkitchen.withgoogle.com/*",
+        "https://*.google.com/*",
+        "https://deepmind.google/*",
+        "https://*.deepmind.google/*"
+      ],
+      "all_frames": true,
+      "match_about_blank": true,
+      "js": [
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "studio.html",
+        "studio.css",
+        "studio.js",
+        "smart-order.js",
+        "i18n.js",
+        "flow-page-bridge.js"
+      ],
+      "matches": ["*://*/*"]
+    }
+  ]
+}
