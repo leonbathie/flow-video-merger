@@ -1,0 +1,40 @@
+{
+  "name": "flow-video-merger",
+  "version": "1.2.0",
+  "description": "Chrome extension to capture, intelligently organize, preview, and stitch Google Flow & Veo videos into high-quality films directly in your browser.",
+  "main": "background.js",
+  "scripts": {
+    "test": "node test-all.js",
+    "test:deep": "node test-suite-deep.js",
+    "test:studio": "node test-studio-and-smart-ordering.js",
+    "test:smart": "node test-smart-order.js",
+    "test:timestamp": "node test-timestamp-and-play-all.js",
+    "test:retrieval": "node test-break-and-verify-flow-retrieval.js",
+    "test:metadata": "node test-flow-native-metadata.js",
+    "test:design": "node test-extension-design-refresh.js",
+    "test:i18n": "node test-i18n-and-bilingual.js",
+    "test:not-same-site": "node test-not-same-site-fix.js",
+    "test:cleanup": "node test-generative-ui-cleanup.js",
+    "test:pipeline": "node test-flow-retrieval-pipeline.js",
+    "test:boost": "node test-break-and-verify.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leonbathie/flow-video-merger.git"
+  },
+  "keywords": [
+    "chrome-extension",
+    "manifest-v3",
+    "google-flow",
+    "veo",
+    "video-editor",
+    "video-merger",
+    "video-sequencer"
+  ],
+  "author": "Ousmane Ba <ousmane.ba42@unchk.edu.sn>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leonbathie/flow-video-merger/issues"
+  },
+  "homepage": "https://github.com/leonbathie/flow-video-merger#readme"
+}

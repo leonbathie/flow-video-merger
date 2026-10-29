@@ -225,4 +225,64 @@ assert.ok(studioJs.includes('triggerDirectDownload'), 'studio.js must provide di
 
 console.log('✅ Test 6 PASSED: Studio interactive timeline scrubbing and play/pause toggle verified.\n');
 
+// ---------------------------------------------------------------------
+// Test 7: Studio Keyboard Shortcuts, Selection Sync & Inspector Guarding
+// ---------------------------------------------------------------------
+console.log('--- Test 7: Studio Keyboard Shortcuts & Selection Integrity ---');
+
+// 1. Verify global keydown listener guards against button / input hijacking
+assert.ok(
+  studioJs.includes('e.target.matches("input, textarea, select, button") || e.target.closest("button")'),
+  'studio.js must not hijack Space keydown when a button or input is focused'
+);
+
+// 2. Verify Delete / Backspace targeting and fallback
+assert.ok(
+  studioJs.includes('e.key === "Delete" || e.key === "Backspace"'),
+  'studio.js must support Delete / Backspace keydown'
+);
+assert.ok(
+  studioJs.includes('removeClip(targetIdx)'),
+  'studio.js must resolve target clip index when deleting via shortcut'
+);
+
+// 3. Verify Escape deselects without destroying UI
+assert.ok(
+  studioJs.includes('state.selectedClipId = null'),
+  'studio.js must clear selectedClipId on Escape'
+);
+assert.ok(
+  studioJs.includes('renderInspector()'),
+  'studio.js must update inspector on selection/deselection'
+);
+
+// 4. Verify inspector Enter keydown blur and non-empty blur fallback
+assert.ok(
+  studioJs.includes('inspectorPromptInput.addEventListener("keydown"'),
+  'inspectorPromptInput must listen for keydown events'
+);
+assert.ok(
+  studioJs.includes('inspectorPromptInput.addEventListener("blur"'),
+  'inspectorPromptInput must validate and fallback on blur'
+);
+
+// 5. Verify selectClip toggles .is-selected class across cards and timeline
+assert.ok(
+  studioJs.includes('c.classList.toggle("is-selected"'),
+  'selectClip must toggle is-selected class on storyboard cards'
+);
+assert.ok(
+  studioJs.includes('b.classList.toggle("is-selected"'),
+  'selectClip must toggle is-selected class on timeline blocks'
+);
+
+// 6. Verify removeClip bounds clamping and selectedClipId reset
+assert.ok(
+  studioJs.includes('state.currentPreviewIndex = Math.max(0, clips.length - 1)'),
+  'removeClip must clamp currentPreviewIndex within valid bounds'
+);
+
+console.log('✅ Test 7 PASSED: Keyboard shortcuts, selection sync & inspector guards verified.\n');
+
 console.log('=== ALL STUDIO & SMART ORDERING TESTS PASSED! ===');
+

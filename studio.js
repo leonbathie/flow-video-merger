@@ -652,6 +652,14 @@
   function selectClip(clipId, index) {
     state.selectedClipId = clipId;
     state.currentPreviewIndex = index;
+    // Update visual selection in storyboard
+    document.querySelectorAll(".storyboard-card").forEach((c) => {
+      c.classList.toggle("is-selected", c.dataset.clipId === clipId);
+    });
+    // Update visual selection in timeline
+    document.querySelectorAll(".timeline-clip-block").forEach((b) => {
+      b.classList.toggle("is-selected", b.dataset.index === String(index));
+    });
     renderInspector();
   }
 
@@ -705,6 +713,28 @@
       // Mettre à jour la carte correspondante
       const cardInput = document.querySelector(`.storyboard-card[data-clip-id="${clip.id}"] .card-prompt-input`);
       if (cardInput) cardInput.value = clip.title;
+    }
+  });
+
+  inspectorPromptInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      inspectorPromptInput.blur();
+    }
+  });
+
+  inspectorPromptInput.addEventListener("blur", (e) => {
+    const clips = getActiveClips();
+    const clip = clips.find((c) => c.id === state.selectedClipId) || clips[state.currentPreviewIndex];
+    if (clip && !e.target.value.trim()) {
+      const idx = clips.indexOf(clip);
+      const fallback = `Clip #${String(idx + 1).padStart(2, "0")}`;
+      e.target.value = fallback;
+      clip.title = fallback;
+      clip.promptText = fallback;
+      saveState();
+      const cardInput = document.querySelector(`.storyboard-card[data-clip-id="${clip.id}"] .card-prompt-input`);
+      if (cardInput) cardInput.value = fallback;
     }
   });
 
@@ -872,6 +902,12 @@
     const [removed] = clips.splice(index, 1);
     if (removed && removed.cachedObjectUrl) {
       URL.revokeObjectURL(removed.cachedObjectUrl);
+    }
+    if (removed && state.selectedClipId === removed.id) {
+      state.selectedClipId = null;
+    }
+    if (state.currentPreviewIndex >= clips.length) {
+      state.currentPreviewIndex = Math.max(0, clips.length - 1);
     }
     setActiveClips(clips);
   }
@@ -1241,6 +1277,7 @@
       if (clips.length === 0) return;
       sequencePlayer.pause();
       state.currentPreviewIndex = 0;
+      if (clips[0]) selectClip(clips[0].id, 0);
       state.isPlayingSequence = true;
       updatePlayButtons(true);
       await playPreviewLoop(0, 0);
@@ -1257,6 +1294,8 @@
     updatePlayButtons(false);
     highlightActiveCard(-1);
     state.currentPreviewIndex = 0;
+    const clips = getActiveClips();
+    if (clips[0]) selectClip(clips[0].id, 0);
     playSingleClipAtIndex(0, 0);
     timelinePlayhead.style.left = "0%";
     timelineCurrentTime.textContent = "00:00.0";
@@ -1266,6 +1305,8 @@
     const clips = getActiveClips();
     if (state.currentPreviewIndex > 0) {
       state.currentPreviewIndex -= 1;
+      const targetClip = clips[state.currentPreviewIndex];
+      if (targetClip) selectClip(targetClip.id, state.currentPreviewIndex);
       if (state.isPlayingSequence) {
         playPreviewLoop(state.currentPreviewIndex, 0);
       } else {
@@ -1278,6 +1319,8 @@
     const clips = getActiveClips();
     if (state.currentPreviewIndex + 1 < clips.length) {
       state.currentPreviewIndex += 1;
+      const targetClip = clips[state.currentPreviewIndex];
+      if (targetClip) selectClip(targetClip.id, state.currentPreviewIndex);
       if (state.isPlayingSequence) {
         playPreviewLoop(state.currentPreviewIndex, 0);
       } else {
@@ -1371,7 +1414,7 @@
 
   // Keyboard navigation shortcuts
   window.addEventListener("keydown", (e) => {
-    if (e.target && (e.target.matches("input, textarea, select") || e.target.isContentEditable)) return;
+    if (e.target && (e.target.matches("input, textarea, select, button") || e.target.closest("button") || e.target.isContentEditable)) return;
 
     if (e.code === "Space") {
       e.preventDefault();
@@ -1386,19 +1429,27 @@
       e.preventDefault();
       restartSequenceBtn?.click();
     } else if (e.key === "Delete" || e.key === "Backspace") {
+      const clips = getActiveClips();
+      let targetIdx = -1;
       if (state.selectedClipId) {
-        const clips = getActiveClips();
-        const idx = clips.findIndex((c) => c.id === state.selectedClipId);
-        if (idx !== -1) {
-          removeClip(idx);
-        }
+        targetIdx = clips.findIndex((c) => c.id === state.selectedClipId);
+      }
+      if (targetIdx === -1 && state.currentPreviewIndex >= 0 && state.currentPreviewIndex < clips.length) {
+        targetIdx = state.currentPreviewIndex;
+      }
+      if (targetIdx !== -1) {
+        e.preventDefault();
+        removeClip(targetIdx);
       }
     } else if (e.key === "Escape") {
+      e.preventDefault();
       state.selectedClipId = null;
+      document.querySelectorAll(".storyboard-card").forEach((c) => c.classList.remove("is-selected"));
+      document.querySelectorAll(".timeline-clip-block").forEach((b) => b.classList.remove("is-selected"));
       if (aiReportDrawer && !aiReportDrawer.classList.contains("hidden")) {
         aiReportDrawer.classList.add("hidden");
       }
-      renderUI();
+      renderInspector();
     }
   });
 

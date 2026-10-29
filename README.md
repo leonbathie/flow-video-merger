@@ -161,9 +161,11 @@ flow-video-merger/
 ├── studio.css                # Web Studio styles (Storyboard & Timeline)
 ├── studio.js                 # Web Studio controller, scrubber & merger
 ├── icons/                    # Vector-rendered extension icons (16, 48, 128px)
-├── .gitignore                # Git exclusions (OS files, Chrome metadata, large media)
+├── package.json              # Project metadata & npm test scripts
+├── .gitignore                # Git exclusions (OS files, Chrome metadata, packages)
 ├── LICENSE                   # MIT License
-└── test-*.js                 # Comprehensive automated test suite
+├── test-all.js               # Unified runner for all 12 test suites
+└── test-*.js                 # Comprehensive automated test suites (12 suites)
 ```
 
 ---
@@ -173,7 +175,12 @@ flow-video-merger/
 Every module is rigorously tested using Node.js without requiring a browser runner:
 
 ```bash
-# Run all tests at once
+# Run all 12 test suites at once with summary metrics
+npm test
+# or
+node test-all.js
+
+# Run individual test suites
 node test-suite-deep.js
 node test-studio-and-smart-ordering.js
 node test-smart-order.js
@@ -183,6 +190,9 @@ node test-flow-native-metadata.js
 node test-extension-design-refresh.js
 node test-i18n-and-bilingual.js
 node test-not-same-site-fix.js
+node test-break-and-verify.js
+node test-flow-retrieval-pipeline.js
+node test-generative-ui-cleanup.js
 ```
 
 ### Coverage Highlights
@@ -192,6 +202,7 @@ node test-not-same-site-fix.js
 - ✅ Dramatic narrative arc sorting (FR & EN).
 - ✅ Mixed timestamp patterns and explicit anchor positions.
 - ✅ Two-way real-time state synchronization between Side Panel and Web Studio.
+- ✅ Full keyboard shortcut accessibility without button conflict.
 
 ---
 
@@ -251,4 +262,4 @@ node test-not-same-site-fix.js
 
 This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
 
-Developed with ❤️ for Google Flow & Veo creators by [Léon Bathie](https://github.com/leonbathie).
+Developed with ❤️ for Google Flow & Veo creators by [Ousmane Ba (leonbathie)](https://github.com/leonbathie).

@@ -45,8 +45,12 @@ out/
 .env.*
 !.env.example
 
-# Local video exports and dumps (preserve icons)
+# Local video exports and dumps
 *.mp4
 *.webm
 *.mov
 !icons/*.png
+
+# Extension packaging bundles
+*.zip
+*.crx
