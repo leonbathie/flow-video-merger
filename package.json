@@ -17,7 +17,8 @@
     "test:cleanup": "node test-generative-ui-cleanup.js",
     "test:pipeline": "node test-flow-retrieval-pipeline.js",
     "test:boost": "node test-break-and-verify.js",
-    "test:autoclose": "node test-sidepanel-auto-close-on-studio-open.js"
+    "test:autoclose": "node test-sidepanel-auto-close-on-studio-open.js",
+    "test:dialogs": "node test-dialogs-and-translations.js"
   },
   "repository": {
     "type": "git",

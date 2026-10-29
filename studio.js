@@ -750,11 +750,18 @@
     syncBadgesWithTab();
   });
 
-  newGroupBtn.addEventListener("click", () => {
+  newGroupBtn.addEventListener("click", async () => {
     const isFr = typeof FlowI18n !== "undefined" && FlowI18n.getLanguage() === "fr";
     const count = Object.keys(state.groups).length + 1;
     const defaultName = isFr ? `Séquence ${count}` : `Sequence ${count}`;
-    const name = prompt(FlowI18n.t("prompt_new_scene"), defaultName);
+    const msg = FlowI18n.t("prompt_new_scene");
+    const title = FlowI18n.t("dialog_title_new_scene");
+    const confirmText = FlowI18n.t("dialog_create");
+    const cancelText = FlowI18n.t("dialog_cancel");
+    const placeholder = FlowI18n.t("prompt_new_scene_placeholder");
+    const name = (typeof FlowDialog !== "undefined" && FlowDialog.prompt)
+      ? await FlowDialog.prompt(msg, defaultName, { title, confirmText, cancelText, placeholder, icon: "plus" })
+      : prompt(msg, defaultName);
     if (!name || !name.trim()) return;
     const clean = name.trim();
     if (!state.groups[clean]) {
@@ -768,9 +775,15 @@
     syncBadgesWithTab();
   });
 
-  renameGroupBtn.addEventListener("click", () => {
+  renameGroupBtn.addEventListener("click", async () => {
     const current = state.activeGroup;
-    const newName = prompt(FlowI18n.t("prompt_rename_scene"), current);
+    const msg = FlowI18n.t("prompt_rename_scene");
+    const title = FlowI18n.t("dialog_title_rename_scene");
+    const confirmText = FlowI18n.t("dialog_rename");
+    const cancelText = FlowI18n.t("dialog_cancel");
+    const newName = (typeof FlowDialog !== "undefined" && FlowDialog.prompt)
+      ? await FlowDialog.prompt(msg, current, { title, confirmText, cancelText, icon: "edit" })
+      : prompt(msg, current);
     if (!newName || !newName.trim() || newName.trim() === current) return;
     const clean = newName.trim();
     state.groups[clean] = state.groups[current];
@@ -780,13 +793,26 @@
     renderUI();
   });
 
-  deleteGroupBtn.addEventListener("click", () => {
+  deleteGroupBtn.addEventListener("click", async () => {
     const keys = Object.keys(state.groups);
     if (keys.length <= 1) {
-      alert(FlowI18n.t("cannot_delete_last"));
+      const msg = FlowI18n.t("cannot_delete_last");
+      const title = FlowI18n.t("dialog_title_notice");
+      if (typeof FlowDialog !== "undefined" && FlowDialog.alert) {
+        await FlowDialog.alert(msg, { title, type: "warning" });
+      } else {
+        alert(msg);
+      }
       return;
     }
-    if (!confirm(FlowI18n.t("confirm_delete_scene", { group: state.activeGroup }))) return;
+    const msg = FlowI18n.t("confirm_delete_scene", { group: state.activeGroup });
+    const title = FlowI18n.t("dialog_title_delete_scene");
+    const confirmText = FlowI18n.t("dialog_delete_scene");
+    const cancelText = FlowI18n.t("dialog_cancel");
+    const ok = (typeof FlowDialog !== "undefined" && FlowDialog.confirm)
+      ? await FlowDialog.confirm(msg, { title, confirmText, cancelText, danger: true, icon: "danger" })
+      : confirm(msg);
+    if (!ok) return;
     delete state.groups[state.activeGroup];
     state.activeGroup = Object.keys(state.groups)[0];
     saveState();
@@ -912,10 +938,17 @@
     setActiveClips(clips);
   }
 
-  clearAllBtn.addEventListener("click", () => {
+  clearAllBtn.addEventListener("click", async () => {
     const current = getActiveClips();
     if (current.length === 0) return;
-    if (!confirm(FlowI18n.t("confirm_clear_scene", { group: state.activeGroup }))) return;
+    const msg = FlowI18n.t("confirm_clear_scene", { group: state.activeGroup });
+    const title = FlowI18n.t("dialog_title_clear_scene");
+    const confirmText = FlowI18n.t("dialog_clear_clips");
+    const cancelText = FlowI18n.t("dialog_cancel");
+    const ok = (typeof FlowDialog !== "undefined" && FlowDialog.confirm)
+      ? await FlowDialog.confirm(msg, { title, confirmText, cancelText, danger: true, icon: "danger" })
+      : confirm(msg);
+    if (!ok) return;
     current.forEach((c) => {
       if (c.cachedObjectUrl) URL.revokeObjectURL(c.cachedObjectUrl);
     });
@@ -928,16 +961,28 @@
   scanFlowBtn.addEventListener("click", () => {
     scanFlowBtn.disabled = true;
     scanFlowBtn.textContent = FlowI18n.t("scanning_clips");
-    chrome.runtime.sendMessage({ type: "SCAN_ACTIVE_TAB", sortMode: "dom" }, (res) => {
+    chrome.runtime.sendMessage({ type: "SCAN_ACTIVE_TAB", sortMode: "dom" }, async (res) => {
       scanFlowBtn.disabled = false;
       scanFlowBtn.innerHTML = `🔍 <span data-i18n="capture_flow_clips">${FlowI18n.t("capture_flow_clips")}</span>`;
       if (!res || !res.ok) {
-        alert(res?.error || FlowI18n.t("open_flow_prompt"));
+        const errMsg = res?.error || FlowI18n.t("open_flow_prompt");
+        const title = FlowI18n.t("dialog_title_open_flow");
+        if (typeof FlowDialog !== "undefined" && FlowDialog.alert) {
+          await FlowDialog.alert(errMsg, { title, type: "warning" });
+        } else {
+          alert(errMsg);
+        }
         return;
       }
       const scanned = res.clips || [];
       if (scanned.length === 0) {
-        alert(FlowI18n.t("no_videos_found"));
+        const msg = FlowI18n.t("no_videos_found");
+        const title = FlowI18n.t("dialog_title_no_videos");
+        if (typeof FlowDialog !== "undefined" && FlowDialog.alert) {
+          await FlowDialog.alert(msg, { title, type: "info" });
+        } else {
+          alert(msg);
+        }
         return;
       }
 
@@ -1859,7 +1904,13 @@
       );
     } catch (err) {
       console.error("Erreur lors de l'assemblage :", err);
-      alert(FlowI18n.t("merge_error") + err.message);
+      const msg = FlowI18n.t("merge_error") + (err?.message || String(err));
+      const title = FlowI18n.t("dialog_title_error");
+      if (typeof FlowDialog !== "undefined" && FlowDialog.alert) {
+        FlowDialog.alert(msg, { title, type: "error" });
+      } else {
+        alert(msg);
+      }
       progressContainer.classList.add("hidden");
     } finally {
       if (typeof audioCtx !== "undefined" && audioCtx && audioCtx.state !== "closed") {

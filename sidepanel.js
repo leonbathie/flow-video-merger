@@ -705,11 +705,17 @@
     syncBadgesWithTab();
   });
 
-  newGroupBtn.addEventListener("click", () => {
+  newGroupBtn.addEventListener("click", async () => {
     const nextNum = Object.keys(state.groups).length + 1;
     const promptMsg = FlowI18n.t("prompt_new_scene");
     const defaultName = `${FlowI18n.t("new_group_prefix")}${nextNum}`;
-    const name = prompt(promptMsg, defaultName);
+    const title = FlowI18n.t("dialog_title_new_scene");
+    const confirmText = FlowI18n.t("dialog_create");
+    const cancelText = FlowI18n.t("dialog_cancel");
+    const placeholder = FlowI18n.t("prompt_new_scene_placeholder");
+    const name = (typeof FlowDialog !== "undefined" && FlowDialog.prompt)
+      ? await FlowDialog.prompt(promptMsg, defaultName, { title, confirmText, cancelText, placeholder, icon: "plus" })
+      : prompt(promptMsg, defaultName);
     if (!name || !name.trim()) return;
     const cleanName = name.trim();
     if (!state.groups[cleanName]) {
@@ -725,7 +731,7 @@
     const sortMode = sortModeSelect.value;
     scanFlowBtn.disabled = true;
     scanFlowBtn.textContent = FlowI18n.t("scanning_clips");
-    chrome.runtime.sendMessage({ type: "SCAN_ACTIVE_TAB", sortMode }, (res) => {
+    chrome.runtime.sendMessage({ type: "SCAN_ACTIVE_TAB", sortMode }, async (res) => {
       scanFlowBtn.disabled = false;
       scanFlowBtn.innerHTML = `
         <svg class="btn-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -735,12 +741,24 @@
         <span data-i18n="capture_flow_clips">${FlowI18n.t("capture_flow_clips")}</span>
       `;
       if (!res || !res.ok) {
-        alert(res?.error || FlowI18n.t("open_flow_prompt"));
+        const errMsg = res?.error || FlowI18n.t("open_flow_prompt");
+        const title = FlowI18n.t("dialog_title_open_flow");
+        if (typeof FlowDialog !== "undefined" && FlowDialog.alert) {
+          await FlowDialog.alert(errMsg, { title, type: "warning" });
+        } else {
+          alert(errMsg);
+        }
         return;
       }
       const scanned = res.clips || [];
       if (scanned.length === 0) {
-        alert(FlowI18n.t("no_videos_found"));
+        const msg = FlowI18n.t("no_videos_found");
+        const title = FlowI18n.t("dialog_title_no_videos");
+        if (typeof FlowDialog !== "undefined" && FlowDialog.alert) {
+          await FlowDialog.alert(msg, { title, type: "info" });
+        } else {
+          alert(msg);
+        }
         return;
       }
 
@@ -759,9 +777,17 @@
     setActiveClips(sorted);
   });
 
-  clearAllBtn.addEventListener("click", () => {
+  clearAllBtn.addEventListener("click", async () => {
     const current = getActiveClips();
     if (current.length === 0) return;
+    const msg = FlowI18n.t("confirm_clear_scene", { group: state.activeGroup });
+    const title = FlowI18n.t("dialog_title_clear_scene");
+    const confirmText = FlowI18n.t("dialog_clear_clips");
+    const cancelText = FlowI18n.t("dialog_cancel");
+    const ok = (typeof FlowDialog !== "undefined" && FlowDialog.confirm)
+      ? await FlowDialog.confirm(msg, { title, confirmText, cancelText, danger: true, icon: "danger" })
+      : confirm(msg);
+    if (!ok) return;
     current.forEach((c) => {
       if (c.cachedObjectUrl) URL.revokeObjectURL(c.cachedObjectUrl);
     });
@@ -1494,7 +1520,13 @@
       );
     } catch (err) {
       console.error("Erreur lors de l'assemblage :", err);
-      alert(FlowI18n.t("merge_error") + err.message);
+      const msg = FlowI18n.t("merge_error") + (err?.message || String(err));
+      const title = FlowI18n.t("dialog_title_error");
+      if (typeof FlowDialog !== "undefined" && FlowDialog.alert) {
+        FlowDialog.alert(msg, { title, type: "error" });
+      } else {
+        alert(msg);
+      }
       progressContainer.classList.add("hidden");
     } finally {
       state.isMerging = false;

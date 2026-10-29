@@ -88,10 +88,29 @@
       open_flow_prompt: "Open a project on Google Flow (flow.google or labs.google) to capture videos.",
       merge_error: "Error during video merge: ",
       prompt_new_scene: "Name of the new scene:",
+      prompt_new_scene_placeholder: "e.g. Sequence 2",
       prompt_rename_scene: "New name for the sequence:",
       confirm_delete_scene: "Permanently delete sequence \"{group}\"?",
       confirm_clear_scene: "Clear all clips from sequence \"{group}\"?",
       cannot_delete_last: "Cannot delete the last remaining sequence.",
+      dialog_confirm: "Confirm",
+      dialog_cancel: "Cancel",
+      dialog_ok: "OK",
+      dialog_got_it: "Got it",
+      dialog_close: "Close",
+      dialog_clear_clips: "Clear clips",
+      dialog_delete_scene: "Delete sequence",
+      dialog_create: "Create",
+      dialog_rename: "Rename",
+      dialog_title_confirm: "Confirmation",
+      dialog_title_clear_scene: "Clear Sequence",
+      dialog_title_delete_scene: "Delete Sequence",
+      dialog_title_new_scene: "New Sequence",
+      dialog_title_rename_scene: "Rename Sequence",
+      dialog_title_notice: "Notice",
+      dialog_title_error: "Assembly Error",
+      dialog_title_no_videos: "No Videos Found",
+      dialog_title_open_flow: "Google Flow Required",
       default_group_name: "Sequence 1",
       new_group_prefix: "Sequence ",
       // Studio specific
@@ -261,10 +280,29 @@
       open_flow_prompt: "Ouvrez un projet sur Google Flow (flow.google ou labs.google) pour capturer les vidéos.",
       merge_error: "Erreur lors de l'assemblage vidéo : ",
       prompt_new_scene: "Nom de la nouvelle séquence :",
+      prompt_new_scene_placeholder: "Ex : Séquence 2",
       prompt_rename_scene: "Nouveau nom pour la séquence :",
       confirm_delete_scene: "Supprimer définitivement la séquence \"{group}\" ?",
       confirm_clear_scene: "Vider tous les clips de la séquence \"{group}\" ?",
       cannot_delete_last: "Impossible de supprimer la dernière séquence restante.",
+      dialog_confirm: "Confirmer",
+      dialog_cancel: "Annuler",
+      dialog_ok: "OK",
+      dialog_got_it: "Compris",
+      dialog_close: "Fermer",
+      dialog_clear_clips: "Vider les clips",
+      dialog_delete_scene: "Supprimer la séquence",
+      dialog_create: "Créer",
+      dialog_rename: "Renommer",
+      dialog_title_confirm: "Confirmation",
+      dialog_title_clear_scene: "Vider la séquence",
+      dialog_title_delete_scene: "Supprimer la séquence",
+      dialog_title_new_scene: "Nouvelle séquence",
+      dialog_title_rename_scene: "Renommer la séquence",
+      dialog_title_notice: "Information",
+      dialog_title_error: "Erreur d'assemblage",
+      dialog_title_no_videos: "Aucune vidéo trouvée",
+      dialog_title_open_flow: "Google Flow requis",
       default_group_name: "Séquence 1",
       new_group_prefix: "Séquence ",
       // Studio specific
@@ -498,7 +536,8 @@
         if (res && res.fvm_lang && (res.fvm_lang === "en" || res.fvm_lang === "fr")) {
           setLanguage(res.fvm_lang, false);
         } else {
-          setLanguage("en", false);
+          const sysLang = (typeof navigator !== "undefined" && navigator.language && navigator.language.toLowerCase().startsWith("fr")) ? "fr" : "en";
+          setLanguage(sysLang, false);
         }
         bindSwitchers();
         applyTranslations();

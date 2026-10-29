@@ -17,7 +17,8 @@ const testFiles = [
   'test-break-and-verify.js',
   'test-flow-retrieval-pipeline.js',
   'test-generative-ui-cleanup.js',
-  'test-sidepanel-auto-close-on-studio-open.js'
+  'test-sidepanel-auto-close-on-studio-open.js',
+  'test-dialogs-and-translations.js'
 ];
 
 console.log('================================================================');

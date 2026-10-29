@@ -114,7 +114,9 @@
         "studio.js",
         "smart-order.js",
         "i18n.js",
-        "flow-page-bridge.js"
+        "flow-page-bridge.js",
+        "dialog.js",
+        "dialog.css"
       ],
       "matches": ["*://*/*"]
     }
