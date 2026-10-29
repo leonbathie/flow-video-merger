@@ -16,7 +16,8 @@
     "test:not-same-site": "node test-not-same-site-fix.js",
     "test:cleanup": "node test-generative-ui-cleanup.js",
     "test:pipeline": "node test-flow-retrieval-pipeline.js",
-    "test:boost": "node test-break-and-verify.js"
+    "test:boost": "node test-break-and-verify.js",
+    "test:autoclose": "node test-sidepanel-auto-close-on-studio-open.js"
   },
   "repository": {
     "type": "git",

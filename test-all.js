@@ -16,7 +16,8 @@ const testFiles = [
   'test-not-same-site-fix.js',
   'test-break-and-verify.js',
   'test-flow-retrieval-pipeline.js',
-  'test-generative-ui-cleanup.js'
+  'test-generative-ui-cleanup.js',
+  'test-sidepanel-auto-close-on-studio-open.js'
 ];
 
 console.log('================================================================');
@@ -70,6 +71,6 @@ if (failedCount > 0) {
   console.error(`❌ FAILURE: ${failedCount} test suite(s) failed.`);
   process.exit(1);
 } else {
-  console.log('🎉 SUCCESS: All 12 test suites passed with 100% success rate!\n');
+  console.log(`🎉 SUCCESS: All ${testFiles.length} test suites passed with 100% success rate!\n`);
   process.exit(0);
 }

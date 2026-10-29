@@ -217,10 +217,45 @@ chrome.runtime.onInstalled.addListener(() => {
   }
 });
 
+// Ouverture du Studio Web avec fermeture automatique du panneau latéral (Side Panel)
+function openWebStudio(windowId) {
+  // 1. Diffuser CLOSE_SIDEPANEL à tous les composants d'extension
+  if (chrome.runtime && typeof chrome.runtime.sendMessage === "function") {
+    try {
+      chrome.runtime.sendMessage({ type: "CLOSE_SIDEPANEL" }, () => {
+        void chrome.runtime.lastError;
+      });
+    } catch (_) {}
+  }
+
+  // 2. Fermer le panneau latéral via l'API chrome.sidePanel si supportée
+  try {
+    if (typeof windowId === "number") {
+      chrome.sidePanel?.close?.({ windowId })?.catch?.(() => {});
+    } else {
+      chrome.sidePanel?.close?.()?.catch?.(() => {});
+    }
+  } catch (_) {}
+
+  if (typeof windowId !== "number" && chrome.windows && typeof chrome.windows.getLastFocused === "function") {
+    try {
+      chrome.windows.getLastFocused((win) => {
+        if (win && win.id) {
+          chrome.sidePanel?.close?.({ windowId: win.id })?.catch?.(() => {});
+        }
+      });
+    } catch (_) {}
+  }
+
+  // 3. Ouvrir l'onglet du Studio Web
+  chrome.tabs.create({ url: chrome.runtime.getURL("studio.html") });
+}
+
 if (chrome.contextMenus && chrome.contextMenus.onClicked) {
-  chrome.contextMenus.onClicked.addListener((info) => {
+  chrome.contextMenus.onClicked.addListener((info, tab) => {
     if (info.menuItemId === "open_flow_studio") {
-      chrome.tabs.create({ url: chrome.runtime.getURL("studio.html") });
+      const windowId = tab ? tab.windowId : undefined;
+      openWebStudio(windowId);
     }
   });
 }
@@ -295,7 +330,30 @@ async function findTargetTab() {
 // Relais des messages
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === "OPEN_STUDIO") {
-    chrome.tabs.create({ url: chrome.runtime.getURL("studio.html") });
+    const windowId = (sender && sender.tab) ? sender.tab.windowId : undefined;
+    openWebStudio(windowId);
+    sendResponse({ ok: true });
+    return false;
+  }
+
+  if (message.type === "CLOSE_SIDEPANEL") {
+    const windowId = (sender && sender.tab) ? sender.tab.windowId : undefined;
+    try {
+      if (typeof windowId === "number") {
+        chrome.sidePanel?.close?.({ windowId })?.catch?.(() => {});
+      } else {
+        chrome.sidePanel?.close?.()?.catch?.(() => {});
+      }
+    } catch (_) {}
+    if (typeof windowId !== "number" && chrome.windows && typeof chrome.windows.getLastFocused === "function") {
+      try {
+        chrome.windows.getLastFocused((win) => {
+          if (win && win.id) {
+            chrome.sidePanel?.close?.({ windowId: win.id })?.catch?.(() => {});
+          }
+        });
+      } catch (_) {}
+    }
     sendResponse({ ok: true });
     return false;
   }

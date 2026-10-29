@@ -41,6 +41,26 @@
   if (openStudioBtn) {
     openStudioBtn.addEventListener("click", () => {
       chrome.tabs.create({ url: chrome.runtime.getURL("studio.html") });
+      if (typeof window !== "undefined" && typeof window.close === "function") {
+        window.close();
+      }
+    });
+  }
+
+  // Écoute des messages pour fermer le panneau latéral (Side Panel)
+  if (typeof chrome !== "undefined" && chrome.runtime && chrome.runtime.onMessage) {
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+      if (message && message.type === "CLOSE_SIDEPANEL") {
+        if (sendResponse) {
+          try {
+            sendResponse({ ok: true });
+          } catch (_) {}
+        }
+        if (typeof window !== "undefined" && typeof window.close === "function") {
+          window.close();
+        }
+        return true;
+      }
     });
   }
 

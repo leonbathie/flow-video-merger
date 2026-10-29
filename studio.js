@@ -2057,6 +2057,47 @@
     }
   });
 
+  // Fermeture automatique du panneau latéral (Side Panel) dès l'ouverture du Studio Web
+  function closeSidePanelIfOpen() {
+    if (typeof chrome === "undefined") return;
+
+    // 1. Diffuser l'instruction CLOSE_SIDEPANEL à toute vue active (side panel)
+    if (chrome.runtime && typeof chrome.runtime.sendMessage === "function") {
+      try {
+        chrome.runtime.sendMessage({ type: "CLOSE_SIDEPANEL" }, () => {
+          void chrome.runtime.lastError;
+        });
+      } catch (_) {}
+    }
+
+    // 2. Fermer directement le panneau latéral via chrome.sidePanel.close si supporté
+    if (chrome.sidePanel && typeof chrome.sidePanel.close === "function") {
+      if (chrome.windows && typeof chrome.windows.getCurrent === "function") {
+        try {
+          chrome.windows.getCurrent((currentWin) => {
+            const windowId = currentWin ? currentWin.id : undefined;
+            try {
+              if (typeof windowId === "number") {
+                chrome.sidePanel?.close?.({ windowId })?.catch?.(() => {});
+              } else {
+                chrome.sidePanel?.close?.()?.catch?.(() => {});
+              }
+            } catch (_) {}
+          });
+        } catch (_) {
+          try {
+            chrome.sidePanel?.close?.()?.catch?.(() => {});
+          } catch (_) {}
+        }
+      } else {
+        try {
+          chrome.sidePanel?.close?.()?.catch?.(() => {});
+        } catch (_) {}
+      }
+    }
+  }
+
   // Initialisation au chargement
+  closeSidePanelIfOpen();
   loadState();
 })();
