@@ -42,12 +42,13 @@
 >
 > **EN**: The official open-source Chrome Extension & Web Studio for **Google Flow** (`flow.google`, `labs.google/fx/tools/flow`) and **Google Veo / Veo 2**. Automatically detect 4K `/boost` assets, sequence scenes with AI narrative logic, preview with zero buffering, and stitch cinematic films with native audio directly in your browser. Live showcase: [https://leonbathie.github.io/flow-video-merger/](https://leonbathie.github.io/flow-video-merger/).
 >
-> **FR** : L'extension Chrome & Studio Web n°1 pour **Google Flow** et **Google Veo 2**. Détectez automatiquement vos clips 4K `/boost`, ordonnez vos scènes avec l'IA narrative, prévisualisez en direct et fusionnez vos vidéos haute définition avec l'audio natif Veo directement dans votre navigateur. Site officiel : [https://leonbathie.github.io/flow-video-merger/](https://leonbathie.github.io/flow-video-merger/).
+> **FR** : L'extension Chrome & Studio Web n°1 pour **Google Flow** et **Google Veo 2**. Détectez automatiquement vos clips 4K `/boost`, ordonnez vos scènes avec l'IA narrative, prévisualisez en direct et fusionnez vos vidéos haute définition avec l'audio natif Veo directement dans votre navigateur. Site officiel : [https://leonbathie.github.io/flow-video-merger/fr/](https://leonbathie.github.io/flow-video-merger/fr/).
 
 ---
 
 <p align="center">
   <a href="https://leonbathie.github.io/flow-video-merger/"><b>🌐 Official Website & Demo</b></a> •
+  <a href="https://leonbathie.github.io/flow-video-merger/fr/"><b>🇫🇷 Site Officiel (FR)</b></a> •
   <a href="#quick-start"><b>🚀 Direct Download & Install</b></a> •
   <a href="#why-this-tool"><b>💡 Why This Tool?</b></a> •
   <a href="#comparison"><b>📊 Comparison</b></a> •

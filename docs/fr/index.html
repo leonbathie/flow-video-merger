@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>flow-video-merger : Assembler &amp; Fusionner les Vidéos Google Flow &amp; Veo en 4K</title>
+  <meta name="description" content="flow-video-merger est l'extension Chrome n°1 et Studio Web open-source pour Google Flow (flow.google) et Google Veo 2. Détectez les clips 4K /boost, ordonnez avec l'IA narrative et assemblez vos films en 1-clic. Gratuit sur GitHub." />
+  <meta name="keywords" content="flow-video-merger, flow-video-merger github, fusionner video google flow, assembler video google flow, google flow video merger, extension google flow, google flow france, google veo, google veo 2, montage video google flow, veo video stitcher, leonbathie" />
+  <meta name="author" content="Ousmane Ba (leonbathie)" />
+  <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  <link rel="canonical" href="https://leonbathie.github.io/flow-video-merger/fr/" />
+  <link rel="alternate" hreflang="en" href="https://leonbathie.github.io/flow-video-merger/" />
+  <link rel="alternate" hreflang="fr" href="https://leonbathie.github.io/flow-video-merger/fr/" />
+  <link rel="alternate" hreflang="x-default" href="https://leonbathie.github.io/flow-video-merger/" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://leonbathie.github.io/flow-video-merger/fr/" />
+  <meta property="og:title" content="flow-video-merger : Assembler &amp; Fusionner les Vidéos Google Flow &amp; Veo en 4K" />
+  <meta property="og:description" content="L'extension Chrome et Studio Web open-source pour séquencer, assembler et exporter les clips Google Flow &amp; Veo 2 en films 4K directement dans Chrome." />
+  <meta property="og:image" content="https://leonbathie.github.io/flow-video-merger/icons/icon128.png" />
+  <meta property="og:site_name" content="flow-video-merger" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:locale:alternate" content="en_US" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://leonbathie.github.io/flow-video-merger/fr/" />
+  <meta name="twitter:title" content="flow-video-merger : Assembler &amp; Fusionner Google Flow &amp; Veo en 4K" />
+  <meta name="twitter:description" content="Extension Chrome open-source pour capturer, ordonner et fusionner les clips Google Flow &amp; Veo en 4K." />
+  <meta name="twitter:image" content="https://leonbathie.github.io/flow-video-merger/icons/icon128.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="16x16" href="../icons/icon16.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="../icons/icon48.png" />
+  <link rel="icon" type="image/png" sizes="128x128" href="../icons/icon128.png" />
+  <link rel="apple-touch-icon" href="../icons/icon128.png" />
+
+  <!-- Schema.org JSON-LD Structured Data: SoftwareApplication & WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://leonbathie.github.io/flow-video-merger/fr/#software",
+        "name": "flow-video-merger",
+        "alternateName": ["Flow Video Merger", "Google Flow Video Merger", "Flow Video Studio"],
+        "description": "L'extension Chrome n°1 et Studio Web open-source pour Google Flow et Google Veo 2. Détecte automatiquement les clips 4K /boost surclassés, ordonne les scènes avec l'IA narrative, prévisualise sans mise en mémoire tampon et assemble des films 4K fluides avec l'audio natif Veo.",
+        "operatingSystem": "Chrome OS, Windows, macOS, Linux (navigateurs Chromium)",
+        "applicationCategory": "MultimediaApplication",
+        "applicationSubCategory": "Éditeur & Assembleur Vidéo IA",
+        "softwareVersion": "1.2.0",
+        "license": "https://opensource.org/licenses/MIT",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "5.0",
+          "ratingCount": "18",
+          "bestRating": "5",
+          "worstRating": "1"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "Ousmane Ba",
+          "url": "https://github.com/leonbathie"
+        },
+        "downloadUrl": "https://github.com/leonbathie/flow-video-merger/archive/refs/heads/main.zip",
+        "installUrl": "https://github.com/leonbathie/flow-video-merger#quick-start",
+        "codeRepository": "https://github.com/leonbathie/flow-video-merger",
+        "screenshot": "https://leonbathie.github.io/flow-video-merger/icons/icon128.png",
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://leonbathie.github.io/flow-video-merger/#website",
+        "url": "https://leonbathie.github.io/flow-video-merger/fr/",
+        "name": "flow-video-merger",
+        "alternateName": ["Flow Video Merger", "Google Flow Video Merger", "Flow Video Studio"],
+        "publisher": {
+          "@type": "Person",
+          "name": "Ousmane Ba (leonbathie)"
+        },
+        "inLanguage": "fr-FR"
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://leonbathie.github.io/flow-video-merger/fr/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Qu'est-ce que flow-video-merger ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "flow-video-merger est une extension Google Chrome gratuite et open-source (Manifest V3) accompagnée d'un Studio Web plein écran dédiée aux utilisateurs de Google Flow (flow.google) et Google Veo / Veo 2. Elle capture automatiquement vos générations de vidéos, identifie les rendus 4K /boost, ordonne vos plans avec l'IA narrative et assemble vos vidéos en un film 4K directement dans votre navigateur."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Comment installer flow-video-merger dans Google Chrome ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "1. Téléchargez le ZIP depuis https://github.com/leonbathie/flow-video-merger/archive/refs/heads/main.zip.\n2. Décompressez l'archive dans un dossier.\n3. Dans Chrome, ouvrez chrome://extensions/ et activez le 'Mode développeur' en haut à droite.\n4. Cliquez sur 'Charger l'extension non empaquetée' et sélectionnez le dossier extrait."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Comment fonctionne la détection automatique 4K /boost ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Lorsque vous boostez un clip en 4K sur Google Flow, Google génère un fichier haute définition stocké sous un chemin /boost. flow-video-merger associe automatiquement ce fichier au plan d'origine et remplace le brouillon basse résolution sans toucher à votre ordre de montage."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Mes vidéos et prompts restent-ils confidentiels ?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Oui, à 100 %. flow-video-merger s'exécute exclusivement en local dans votre navigateur via l'accélération matérielle. Aucun serveur externe, aucune télémétrie et aucun compte requis."
+            }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #090d16;
+      --bg-card: #111827;
+      --bg-card-hover: #1f293d;
+      --text: #f3f4f6;
+      --text-muted: #9ca3af;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --accent: #8b5cf6;
+      --success: #10b981;
+      --success-hover: #059669;
+      --border: #1e293b;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { color: var(--primary); text-decoration: none; transition: color 0.2s ease; }
+    a:hover { color: #60a5fa; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+
+    header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(9, 13, 22, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between; height: 72px;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.25rem; color: #fff;
+    }
+    .brand img { width: 36px; height: 36px; border-radius: 8px; }
+    .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
+    .nav-links a { color: var(--text-muted); font-size: 0.95rem; font-weight: 500; }
+    .nav-links a:hover { color: #fff; }
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 10px 20px; font-size: 0.95rem; font-weight: 600; border-radius: 8px;
+      cursor: pointer; border: 1px solid transparent; transition: all 0.2s ease; text-decoration: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: #ffffff !important;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5); }
+    .btn-secondary { background: #1e293b; color: #fff !important; border-color: #334155; }
+    .btn-secondary:hover { background: #334155; border-color: #475569; }
+    .btn-ghost { background: transparent; color: var(--text) !important; border: 1px solid var(--border); }
+    .btn-ghost:hover { background: var(--bg-card); border-color: #475569; }
+    .btn-lg { padding: 14px 28px; font-size: 1.1rem; border-radius: 10px; }
+
+    .hero { padding: 80px 0 60px; text-align: center; position: relative; }
+    .hero::before {
+      content: ""; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 400px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(139, 92, 246, 0.08) 50%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+    .pill-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(59, 130, 246, 0.12); border: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 6px 16px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600;
+      color: #93c5fd; margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: 3.25rem; font-weight: 800; line-height: 1.15; letter-spacing: -0.02em;
+      margin-bottom: 20px; color: #ffffff;
+    }
+    .hero h1 span.gradient-text {
+      background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #34d399 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.25rem; color: var(--text-muted); margin-bottom: 36px;
+      max-width: 780px; margin-left: auto; margin-right: auto;
+    }
+    .hero-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; margin-bottom: 40px; }
+    .badges-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 20px; }
+    .badge-chip {
+      background: #111827; border: 1px solid #1f2937; padding: 6px 14px;
+      border-radius: 6px; font-size: 0.82rem; color: #9ca3af;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+
+    /* Studio UI Mockup */
+    .studio-preview {
+      margin: 40px auto; background: #0d121f; border: 1px solid #1e293b;
+      border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      overflow: hidden; max-width: 1040px; text-align: left;
+    }
+    .studio-header {
+      background: #151c2e; padding: 12px 20px; display: flex;
+      align-items: center; justify-content: space-between; border-bottom: 1px solid #1e293b;
+    }
+    .studio-header-left { display: flex; align-items: center; gap: 12px; }
+    .window-dots { display: flex; gap: 6px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+    .studio-title { font-size: 0.9rem; font-weight: 600; color: #e2e8f0; }
+    .studio-header-actions { display: flex; align-items: center; gap: 10px; }
+    .studio-tag {
+      background: rgba(16, 185, 129, 0.15); color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3); padding: 3px 10px;
+      border-radius: 999px; font-size: 0.75rem; font-weight: 600;
+    }
+    .studio-body {
+      padding: 24px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    .clip-card {
+      background: #111827; border: 1px solid #1f293d; border-radius: 12px;
+      overflow: hidden; display: flex; flex-direction: column;
+    }
+    .clip-thumbnail {
+      height: 130px; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+      display: flex; align-items: center; justify-content: center; position: relative;
+    }
+    .clip-badge-pos {
+      position: absolute; top: 8px; left: 8px; background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px); padding: 2px 8px; border-radius: 4px;
+      font-size: 0.75rem; font-weight: 700; color: #60a5fa;
+    }
+    .clip-badge-4k {
+      position: absolute; top: 8px; right: 8px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 800; color: #fff;
+    }
+    .clip-info { padding: 12px 14px; }
+    .clip-title { font-size: 0.85rem; font-weight: 600; color: #f1f5f9; margin-bottom: 4px; }
+    .clip-desc { font-size: 0.75rem; color: #94a3b8; }
+    .studio-bar {
+      background: #090e17; padding: 14px 20px; border-top: 1px solid #1e293b;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    section { padding: 70px 0; }
+    .section-header { text-align: center; max-width: 700px; margin: 0 auto 50px; }
+    .section-tag {
+      color: var(--primary); font-weight: 700; text-transform: uppercase;
+      font-size: 0.85rem; letter-spacing: 0.05em; margin-bottom: 8px;
+    }
+    .section-title { font-size: 2.25rem; font-weight: 800; color: #fff; margin-bottom: 14px; }
+    .section-subtitle { color: var(--text-muted); font-size: 1.1rem; }
+
+    .table-wrapper {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; overflow-x: auto;
+    }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th, td { padding: 16px 20px; border-bottom: 1px solid var(--border); }
+    th { background: #162032; font-size: 0.9rem; color: #cbd5e1; font-weight: 700; }
+    th.highlight, td.highlight { background: rgba(59, 130, 246, 0.07); color: #93c5fd; font-weight: 600; }
+    td { font-size: 0.92rem; color: #e2e8f0; }
+
+    .features-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 24px;
+    }
+    .feature-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: 28px; border-radius: 16px; transition: all 0.25s ease;
+    }
+    .feature-card:hover { background: var(--bg-card-hover); border-color: #3b82f6; transform: translateY(-3px); }
+    .feature-icon {
+      width: 48px; height: 48px; background: rgba(59, 130, 246, 0.12);
+      border: 1px solid rgba(59, 130, 246, 0.25); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 20px;
+    }
+    .feature-title { font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .feature-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .step-card {
+      background: var(--bg-card); border: 1px solid var(--border); padding: 30px; border-radius: 16px;
+    }
+    .step-number { font-size: 2.5rem; font-weight: 900; color: rgba(59, 130, 246, 0.25); margin-bottom: 12px; }
+    .step-title { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .step-desc { color: var(--text-muted); font-size: 0.95rem; }
+
+    .faq-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+    .faq-item { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
+    .faq-item summary {
+      font-weight: 600; font-size: 1.05rem; color: #fff; cursor: pointer; list-style: none;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: "+"; font-size: 1.4rem; color: var(--primary); }
+    .faq-item[open] summary::after { content: "−"; }
+    .faq-answer {
+      margin-top: 14px; color: var(--text-muted); font-size: 0.95rem; line-height: 1.6;
+      border-top: 1px solid #1e293b; padding-top: 14px;
+    }
+
+    .callout-box {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(139, 92, 246, 0.12) 100%);
+      border: 1px solid rgba(59, 130, 246, 0.3); padding: 40px; border-radius: 20px;
+      text-align: center; margin: 60px 0;
+    }
+    .callout-box h2 { font-size: 2rem; color: #fff; margin-bottom: 14px; }
+    .callout-box p { color: #cbd5e1; max-width: 650px; margin: 0 auto 28px; font-size: 1.1rem; }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 50px 0 30px;
+      background: #060910; color: var(--text-muted); font-size: 0.9rem;
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-brand h3 { color: #fff; font-size: 1.2rem; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .footer-links h4 { color: #fff; font-size: 0.95rem; margin-bottom: 14px; }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a { color: #94a3b8; }
+    .footer-links a:hover { color: #fff; }
+    .footer-bottom {
+      border-top: 1px solid #1e293b; padding-top: 24px;
+      display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem;
+    }
+
+    @media (max-width: 860px) {
+      .hero h1 { font-size: 2.4rem; }
+      .studio-body { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header>
+    <div class="container nav">
+      <a href="https://leonbathie.github.io/flow-video-merger/fr/" class="brand" title="flow-video-merger">
+        <img src="../icons/icon128.png" alt="Logo flow-video-merger" width="36" height="36" />
+        <span>flow-video-merger</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+        <li><a href="#comment-ca-marche">Guide</a></li>
+        <li><a href="#comparatif">Comparatif</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ul>
+      <div class="nav-actions">
+        <a href="../" class="btn btn-ghost" title="Switch to English" style="padding: 6px 12px; font-size: 0.85rem;">
+          🇺🇸 English
+        </a>
+        <a href="https://github.com/leonbathie/flow-video-merger" class="btn btn-ghost" target="_blank" rel="noopener noreferrer">
+          ⭐ GitHub
+        </a>
+        <a href="https://github.com/leonbathie/flow-video-merger/archive/refs/heads/main.zip" class="btn btn-primary" title="Télécharger le ZIP de l'extension">
+          ⚡ Télécharger ZIP
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-content">
+      <div class="pill-badge">
+        <span>🎬 Extension Chrome &amp; Web Studio v1.2.0 • 100% Gratuit &amp; Open-Source sur GitHub</span>
+      </div>
+      <h1>
+        Assemblez &amp; Fusionnez en 4K<br />
+        <span class="gradient-text">flow-video-merger</span> pour Google Flow &amp; Veo
+      </h1>
+      <p>
+        L'extension incontournable pour les créateurs sur <strong>Google Flow</strong> (<code>flow.google</code>) et <strong>Google Veo 2</strong>.
+        Détection automatique des clips 4K <code>/boost</code>, ordonnancement par IA narrative, lecteur continu zéro-tampon et assemblage en 1 clic.
+      </p>
+
+      <div class="hero-cta">
+        <a href="https://github.com/leonbathie/flow-video-merger/archive/refs/heads/main.zip" class="btn btn-primary btn-lg" id="download-zip-btn-fr">
+          ⚡ Télécharger l'Extension (ZIP Gratuit)
+        </a>
+        <a href="https://github.com/leonbathie/flow-video-merger" class="btn btn-secondary btn-lg" target="_blank" rel="noopener noreferrer">
+          <svg height="20" width="20" viewBox="0 0 16 16" fill="currentColor" style="vertical-align: text-bottom;">
+            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+          </svg>
+          Voir sur GitHub (leonbathie/flow-video-merger)
+        </a>
+      </div>
+
+      <div class="badges-row">
+        <span class="badge-chip">🚀 Manifest V3</span>
+        <span class="badge-chip">💎 Détection Auto 4K /boost</span>
+        <span class="badge-chip">🧠 Tri Narratif par IA</span>
+        <span class="badge-chip">🔒 100% Privé en Local</span>
+        <span class="badge-chip">📱 16:9 UHD &amp; 9:16 Shorts</span>
+        <span class="badge-chip">🌐 Français &amp; Anglais</span>
+      </div>
+
+      <!-- Studio Preview Simulation -->
+      <div class="studio-preview">
+        <div class="studio-header">
+          <div class="studio-header-left">
+            <div class="window-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <div class="studio-title">
+              🎬 Studio flow-video-merger — <code>flow.google</code>
+            </div>
+          </div>
+          <div class="studio-header-actions">
+            <span class="studio-tag">✨ IA Smart Order : ACTIF</span>
+            <span class="studio-tag">💎 4K Boost : Détecté</span>
+          </div>
+        </div>
+        <div class="studio-body">
+          <div class="clip-card">
+            <div class="clip-thumbnail">
+              <span class="clip-badge-pos">#01 • 00:00</span>
+              <span class="clip-badge-4k">4K BOOST</span>
+              <span style="font-size: 2.2rem;">🌅</span>
+            </div>
+            <div class="clip-info">
+              <div class="clip-title">Plan 1 : Lever de soleil futuriste</div>
+              <div class="clip-desc">Exposition • Brouillon surclassé en 4K /boost</div>
+            </div>
+          </div>
+          <div class="clip-card">
+            <div class="clip-thumbnail">
+              <span class="clip-badge-pos">#02 • 00:06</span>
+              <span class="clip-badge-4k">4K BOOST</span>
+              <span style="font-size: 2.2rem;">🚗</span>
+            </div>
+            <div class="clip-info">
+              <div class="clip-title">Plan 2 : Poursuite cybernétique</div>
+              <div class="clip-desc">Péripéties • Audio natif Veo 2 synchronisé</div>
+            </div>
+          </div>
+          <div class="clip-card">
+            <div class="clip-thumbnail">
+              <span class="clip-badge-pos">#03 • 00:12</span>
+              <span class="clip-badge-4k">4K BOOST</span>
+              <span style="font-size: 2.2rem;">✨</span>
+            </div>
+            <div class="clip-info">
+              <div class="clip-title">Plan 3 : Activation du portail néon</div>
+              <div class="clip-desc">Climax • Arc narratif dramatique en 5 phases</div>
+            </div>
+          </div>
+        </div>
+        <div class="studio-bar">
+          <div style="font-size: 0.85rem; color: #94a3b8;">
+            Séquence : <strong>3 plans</strong> | Durée : <strong>00:18.5</strong> | Sortie : <strong>4K UHD (3840x2160)</strong>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <span class="btn btn-ghost" style="padding: 6px 12px; font-size: 0.8rem;">▶ Tout Lire</span>
+            <span class="btn btn-primary" style="padding: 6px 12px; font-size: 0.8rem;">🎬 Fusionner &amp; Exporter</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparatif -->
+  <section id="comparatif">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Comparatif</div>
+        <h2 class="section-title">Pourquoi Google Flow nécessite cette extension</h2>
+        <p class="section-subtitle">
+          Générer des clips IA sur Google Flow est bluffant. Les assembler en un film complet était un calvaire sans banc de montage intégré.
+        </p>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Fonctionnalité clé</th>
+              <th>Google Flow par défaut ❌</th>
+              <th>CapCut / Premiere ⚠️</th>
+              <th class="highlight">flow-video-merger 🚀</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Intégration directe au navigateur</strong></td>
+              <td>Cartes isolées uniquement</td>
+              <td>Nécessite de quitter Chrome</td>
+              <td class="highlight">✅ Intégré dans flow.google</td>
+            </tr>
+            <tr>
+              <td><strong>Capture automatique des générations</strong></td>
+              <td>Téléchargement manuel 1 par 1</td>
+              <td>Importation manuelle fastidieuse</td>
+              <td class="highlight">✅ Scan du DOM &amp; Canvas en 1 clic</td>
+            </tr>
+            <tr>
+              <td><strong>Remplacement automatique 4K /boost</strong></td>
+              <td>Clips 4K enfouis dans le cloud</td>
+              <td>Remplacement manuel des fichiers</td>
+              <td class="highlight">✅ Mise à niveau 4K automatique</td>
+            </tr>
+            <tr>
+              <td><strong>Tri narratif par IA</strong></td>
+              <td>Aucun (ordre aléatoire)</td>
+              <td>Organisation manuelle du banc</td>
+              <td class="highlight">✅ Arc dramatique en 5 étapes (FR/EN)</td>
+            </tr>
+            <tr>
+              <td><strong>Lecture continue de la séquence</strong></td>
+              <td>Lecture clip par clip</td>
+              <td>Nécessite un montage complet</td>
+              <td class="highlight">✅ Lecteur continu sans latence</td>
+            </tr>
+            <tr>
+              <td><strong>Audio Veo natif préservé</strong></td>
+              <td>Fichiers séparés</td>
+              <td>Recalage audio manuel</td>
+              <td class="highlight">✅ Mixage Web Audio automatisé</td>
+            </tr>
+            <tr>
+              <td><strong>Format vertical 9:16 (TikTok/Reels)</strong></td>
+              <td>Recadrage manuel</td>
+              <td>Recadrage manuel complexe</td>
+              <td class="highlight">✅ Export 4K &amp; 1080p Vertical en 1 clic</td>
+            </tr>
+            <tr>
+              <td><strong>Confidentialité &amp; Gratuité</strong></td>
+              <td>Standard Google</td>
+              <td>Abonnements payants / Cloud</td>
+              <td class="highlight">✅ 100% Local, Gratuit &amp; Libre (MIT)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fonctionnalités -->
+  <section id="fonctionnalites">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Fonctionnalités</div>
+        <h2 class="section-title">Créez vos films Google Flow sans friction</h2>
+        <p class="section-subtitle">
+          Développé pour les créateurs, réalisateurs IA et prompt artists exigeants.
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🔍</div>
+          <h3 class="feature-title">Scan DOM &amp; Canvas en 1 clic</h3>
+          <p class="feature-desc">
+            Analyse récursive des Shadow DOMs sur <code>flow.google</code> pour extraire instantanément tous vos clips vidéo générés et leurs métadonnées.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">💎</div>
+          <h3 class="feature-title">Détection Intelligente 4K /boost</h3>
+          <p class="feature-desc">
+            Dès que Google Flow termine un rendu haute résolution <code>/boost</code>, l'extension substitue automatiquement le brouillon par le master 4K sans perturber votre chronologie.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <h3 class="feature-title">Moteur narratif IA</h3>
+          <p class="feature-desc">
+            Comprend la structure de vos prompts (<code>Plan 1</code>, <code>Scène 2</code>) et les arcs dramatiques en 5 phases (Exposition ➔ Déclencheur ➔ Péripéties ➔ Climax ➔ Dénouement).
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">⏱️</div>
+          <h3 class="feature-title">Prévisualisation continue Zéro-Buffer</h3>
+          <p class="feature-desc">
+            Visionnez l'enchaînement de vos scènes avec règle chronologique temporelle et raccourcis clavier (<code>Espace</code>, <code>←</code>, <code>→</code>).
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3 class="feature-title">Formats 16:9 UHD &amp; 9:16 Shorts</h3>
+          <p class="feature-desc">
+            Exportez au format cinéma panoramique 4K ou basculez en format vertical 9:16 pour TikTok, YouTube Shorts et Instagram Reels.
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3 class="feature-title">Confidentialité 100% Locale</h3>
+          <p class="feature-desc">
+            Aucun serveur tiers, aucun abonnement, aucune donnée transmise. Tout est assemblé directement sur votre machine via l'accélération GPU du navigateur.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comment ça marche -->
+  <section id="comment-ca-marche">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Guide Express</div>
+        <h2 class="section-title">Comment l'utiliser en 3 étapes simples</h2>
+        <p class="section-subtitle">
+          De vos générations éparpillées à un film 4K finalisé en moins de 30 secondes.
+        </p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <h3 class="step-title">Ouvrez Google Flow</h3>
+          <p class="step-desc">
+            Rendez-vous sur <a href="https://flow.google" target="_blank" rel="noopener noreferrer">flow.google</a> et ouvrez votre espace de génération vidéo avec Google Veo.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <h3 class="step-title">Capturer &amp; Réordonner</h3>
+          <p class="step-desc">
+            Cliquez sur <strong>"🔍 Capturer les clips"</strong>, puis sur <strong>"✨ Réordonner avec l'IA"</strong> pour aligner votre séquence dans l'ordre logique et narratif.
+          </p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <h3 class="step-title">Fusionner &amp; Exporter en 4K</h3>
+          <p class="step-desc">
+            Vérifiez le rendu avec <strong>"▶ Tout Lire"</strong>, choisissez votre résolution (4K UHD ou Vertical 9:16) et cliquez sur <strong>"🎬 Fusionner &amp; Exporter"</strong> !
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">Foire Aux Questions</div>
+        <h2 class="section-title">Questions Fréquentes sur flow-video-merger</h2>
+        <p class="section-subtitle">
+          Toutes les réponses pour maîtriser l'assemblage de vos vidéos Google Flow.
+        </p>
+      </div>
+
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary>Qu'est-ce que flow-video-merger ?</summary>
+          <div class="faq-answer">
+            <strong>flow-video-merger</strong> est une extension Chrome open-source (Manifest V3) et un banc de montage Studio Web plein écran spécialement conçus pour Google Flow (<code>flow.google</code>) et Google Veo / Veo 2. Elle capture vos générations, identifie les versions surclassées 4K <code>/boost</code>, ordonne les plans de façon dramatique et fusionne vos scènes en un film 4K fluide avec audio.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Où trouver et télécharger le code source sur GitHub ?</summary>
+          <div class="faq-answer">
+            Le projet est 100% gratuit et libre sous licence MIT sur GitHub : <a href="https://github.com/leonbathie/flow-video-merger" target="_blank" rel="noopener noreferrer">https://github.com/leonbathie/flow-video-merger</a>. Vous pouvez télécharger le ZIP directement, mettre une étoile au dépôt ou contribuer.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Comment l'extension résout-elle les erreurs de lecture Google Cloud ?</summary>
+          <div class="faq-answer">
+            Les buckets de stockage vidéo de Google appliquent une règle stricte de blocage Cross-Origin Read Blocking (CORP), provoquant souvent l'erreur <code>net::ERR_BLOCKED_BY_RESPONSE.NotSameSite</code>. flow-video-merger embarque des règles <code>declarativeNetRequest</code> (<code>rules.json</code>) qui ajustent de manière sécurisée les en-têtes réseau pour permettre la lecture fluide dans Chrome.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Comment fonctionne la mise à niveau automatique 4K /boost ?</summary>
+          <div class="faq-answer">
+            Dès que vous effectuez un agrandissement 4K sur Google Flow, Google enregistre un fichier vidéo haute définition dans un chemin de stockage <code>/boost</code>. flow-video-merger détecte cette URL et remplace le brouillon basse résolution par le fichier 4K d'origine tout en conservant l'ordre de vos clips.
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Mes créations et vidéos sont-elles envoyées sur un serveur ?</summary>
+          <div class="faq-answer">
+            <strong>Jamais.</strong> Tout se déroule à 100 % sur votre ordinateur dans votre navigateur Chrome. Aucune télémétrie, aucun traqueur, aucune base de données externe et aucun compte requis.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Box -->
+  <div class="container">
+    <div class="callout-box">
+      <h2>Prêt à assembler vos créations Google Flow en 4K ?</h2>
+      <p>
+        Téléchargez l'extension open-source gratuite dès aujourd'hui et donnez vie à vos projets cinématographiques Veo.
+      </p>
+      <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+        <a href="https://github.com/leonbathie/flow-video-merger/archive/refs/heads/main.zip" class="btn btn-primary btn-lg">
+          ⚡ Télécharger l'Extension (ZIP Gratuit)
+        </a>
+        <a href="https://github.com/leonbathie/flow-video-merger" class="btn btn-secondary btn-lg" target="_blank" rel="noopener noreferrer">
+          ⭐ Mettre une Étoile sur GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <h3>
+            <img src="../icons/icon128.png" alt="Logo" width="24" height="24" style="border-radius: 4px;" />
+            flow-video-merger
+          </h3>
+          <p>
+            L'extension libre et open-source pour séquencer, ordonner et exporter vos vidéos Google Flow &amp; Veo en 4K.
+          </p>
+          <p style="margin-top: 10px;">
+            Créé avec ❤️ par <a href="https://github.com/leonbathie" target="_blank" rel="noopener noreferrer">Ousmane Ba (leonbathie)</a>.
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="#fonctionnalites">Fonctionnalités</a></li>
+            <li><a href="#comment-ca-marche">Guide Express</a></li>
+            <li><a href="#comparatif">Comparatif</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="../">Version Anglaise (EN)</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-links">
+          <h4>Liens GitHub</h4>
+          <ul>
+            <li><a href="https://github.com/leonbathie/flow-video-merger" target="_blank" rel="noopener noreferrer">Dépôt GitHub flow-video-merger</a></li>
+            <li><a href="https://github.com/leonbathie/flow-video-merger/releases" target="_blank" rel="noopener noreferrer">Versions &amp; Changelog</a></li>
+            <li><a href="https://github.com/leonbathie/flow-video-merger/issues" target="_blank" rel="noopener noreferrer">Signaler un Bug</a></li>
+            <li><a href="https://github.com/leonbathie/flow-video-merger/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">Licence MIT</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          © 2026 flow-video-merger. Open-Source sous Licence MIT.
+        </div>
+        <div>
+          <a href="https://leonbathie.github.io/flow-video-merger/sitemap.xml" style="color: var(--text-muted); margin-right: 14px;">Sitemap</a>
+          <a href="https://leonbathie.github.io/flow-video-merger/robots.txt" style="color: var(--text-muted);">Robots.txt</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

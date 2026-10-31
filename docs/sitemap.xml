@@ -7,7 +7,16 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://leonbathie.github.io/flow-video-merger/" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://leonbathie.github.io/flow-video-merger/#documentation-francaise" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://leonbathie.github.io/flow-video-merger/fr/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://leonbathie.github.io/flow-video-merger/" />
+  </url>
+  <url>
+    <loc>https://leonbathie.github.io/flow-video-merger/fr/</loc>
+    <lastmod>2026-10-31</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://leonbathie.github.io/flow-video-merger/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://leonbathie.github.io/flow-video-merger/fr/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://leonbathie.github.io/flow-video-merger/" />
   </url>
 </urlset>
