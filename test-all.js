@@ -18,7 +18,8 @@ const testFiles = [
   'test-flow-retrieval-pipeline.js',
   'test-generative-ui-cleanup.js',
   'test-sidepanel-auto-close-on-studio-open.js',
-  'test-dialogs-and-translations.js'
+  'test-dialogs-and-translations.js',
+  'test-seo-and-landing-page.js'
 ];
 
 console.log('================================================================');

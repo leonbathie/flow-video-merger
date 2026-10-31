@@ -1,0 +1,7 @@
+# Robots.txt for Google Flow Video Merger GitHub Pages
+# Allow all search engine crawlers (Googlebot, Bingbot, etc.)
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://leonbathie.github.io/flow-video-merger/sitemap.xml

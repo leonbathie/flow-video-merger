@@ -13,6 +13,9 @@
 </p>
 
 <p align="center">
+  <a href="https://leonbathie.github.io/flow-video-merger/">
+    <img src="https://img.shields.io/badge/🌐_OFFICIAL_WEBSITE-leonbathie.github.io%2Fflow--video--merger-7C3AED?style=for-the-badge&logo=googlechrome&logoColor=white" height="42" alt="Official Website & Live Demo" />
+  </a>
   <a href="https://github.com/leonbathie/flow-video-merger/archive/refs/heads/main.zip">
     <img src="https://img.shields.io/badge/⚡_DOWNLOAD_EXTENSION_(ZIP)-00C853?style=for-the-badge&logo=googlechrome&logoColor=white" height="42" alt="Direct Download ZIP" />
   </a>
@@ -22,12 +25,13 @@
 </p>
 
 <p align="center">
+  <a href="https://leonbathie.github.io/flow-video-merger/"><img src="https://img.shields.io/badge/Website-Live_Site-00C853?style=for-the-badge&logo=githubpages&logoColor=white" alt="Live Website" /></a>
   <a href="https://github.com/leonbathie/flow-video-merger/stargazers"><img src="https://img.shields.io/github/stars/leonbathie/flow-video-merger?style=for-the-badge&logo=github&color=FFD700" alt="GitHub Stars" /></a>
   <a href="https://github.com/leonbathie/flow-video-merger/releases"><img src="https://img.shields.io/badge/Release-v1.2.0-007ACC?style=for-the-badge&logo=github" alt="Latest Release v1.2.0" /></a>
   <a href="manifest.json"><img src="https://img.shields.io/badge/Chrome_Extension-Manifest_V3-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Chrome MV3" /></a>
   <a href="https://flow.google"><img src="https://img.shields.io/badge/Compatible-Google_Flow_%7C_Veo_%7C_Veo_2-0F9D58?style=for-the-badge&logo=google&logoColor=white" alt="Google Flow & Veo Compatible" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="MIT License" /></a>
-  <a href="#automated-tests"><img src="https://img.shields.io/badge/Tests-14%2F14_Passing_100%25-brightgreen?style=for-the-badge" alt="Tests 100% Passing" /></a>
+  <a href="#automated-tests"><img src="https://img.shields.io/badge/Tests-15%2F15_Passing_100%25-brightgreen?style=for-the-badge" alt="Tests 100% Passing" /></a>
   <img src="https://img.shields.io/badge/Language-English_%7C_Français-FF6F00?style=for-the-badge" alt="Bilingual EN/FR" />
   <img src="https://img.shields.io/badge/Privacy-100%25_Local_Client--Side-blueviolet?style=for-the-badge" alt="100% Local Privacy" />
 </p>
@@ -36,18 +40,20 @@
 
 > 🌐 **Bilingual / Bilingue** : Full English & French documentation included.
 >
-> **EN**: The official open-source Chrome Extension & Web Studio for **Google Flow** (`flow.google`, `labs.google/fx/tools/flow`) and **Google Veo / Veo 2**. Automatically detect 4K `/boost` assets, sequence scenes with AI narrative logic, preview with zero buffering, and stitch cinematic films with native audio directly in your browser.
+> **EN**: The official open-source Chrome Extension & Web Studio for **Google Flow** (`flow.google`, `labs.google/fx/tools/flow`) and **Google Veo / Veo 2**. Automatically detect 4K `/boost` assets, sequence scenes with AI narrative logic, preview with zero buffering, and stitch cinematic films with native audio directly in your browser. Live showcase: [https://leonbathie.github.io/flow-video-merger/](https://leonbathie.github.io/flow-video-merger/).
 >
-> **FR** : L'extension Chrome & Studio Web n°1 pour **Google Flow** et **Google Veo 2**. Détectez automatiquement vos clips 4K `/boost`, ordonnez vos scènes avec l'IA narrative, prévisualisez en direct et fusionnez vos vidéos haute définition avec l'audio natif Veo directement dans votre navigateur.
+> **FR** : L'extension Chrome & Studio Web n°1 pour **Google Flow** et **Google Veo 2**. Détectez automatiquement vos clips 4K `/boost`, ordonnez vos scènes avec l'IA narrative, prévisualisez en direct et fusionnez vos vidéos haute définition avec l'audio natif Veo directement dans votre navigateur. Site officiel : [https://leonbathie.github.io/flow-video-merger/](https://leonbathie.github.io/flow-video-merger/).
 
 ---
 
 <p align="center">
+  <a href="https://leonbathie.github.io/flow-video-merger/"><b>🌐 Official Website & Demo</b></a> •
   <a href="#quick-start"><b>🚀 Direct Download & Install</b></a> •
   <a href="#why-this-tool"><b>💡 Why This Tool?</b></a> •
   <a href="#comparison"><b>📊 Comparison</b></a> •
   <a href="#features"><b>✨ Features</b></a> •
   <a href="#studio"><b>🖥️ Web Studio</b></a> •
+  <a href="#automated-tests"><b>🧪 Automated Tests</b></a> •
   <a href="#seo-faq"><b>❓ FAQ & Search Guide</b></a> •
   <a href="#documentation-francaise"><b>🇫🇷 Documentation Française</b></a>
 </p>
@@ -409,6 +415,31 @@ Elle résout le principal manque de Google Flow : l'absence d'outil d'assemblage
 - `Début` (`Home`) : Revenir au clip `#01`
 - `Suppr` / `Retour Arrière` : Supprimer le clip sélectionné de la séquence
 - `Échap` : Désélectionner / Fermer le tiroir d'explications IA
+
+---
+
+<a id="automated-tests"></a>
+## 🧪 Automated Testing & Reliability
+
+Flow Video Merger comes with 15 comprehensive automated test suites covering all core functionality, edge cases, and SEO performance:
+
+```bash
+# Run all 15 automated test suites
+npm test
+
+# Run specific test suites
+npm run test:seo          # Verify GitHub Pages SEO landing site & Schema.org JSON-LD
+npm run test:deep         # Deep pipeline & DOM extraction verification
+npm run test:smart        # AI 5-phase story arc sequencing verification
+npm run test:boost        # In-place 4K /boost detection & upgrade tests
+```
+
+- ✅ **15/15 Test Suites Passing (100% Reliability)**
+- 💎 **4K `/boost` In-Place Upgrade**: Validates resolution detection and lossless draft slot replacement.
+- 🧠 **AI Story Arc & Multi-Signal Ordering**: Tests chronological and 5-stage dramatic narrative progression.
+- 🌐 **Bilingual EN/FR i18n**: Verifies full UI translation and prompt language extraction.
+- 🚀 **Cross-Origin CORP Bypass**: Verifies `declarativeNetRequest` header adaptation for Google video storage.
+- 🔍 **SEO & Structured Data**: Validates `docs/index.html`, `sitemap.xml`, `robots.txt`, and Schema.org rich snippets.
 
 ---
 
