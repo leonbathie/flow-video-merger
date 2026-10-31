@@ -1,7 +1,7 @@
 {
   "name": "flow-video-merger",
   "version": "1.2.0",
-  "description": "Chrome extension to capture, intelligently organize, preview, and stitch Google Flow & Veo videos into high-quality films directly in your browser.",
+  "description": "Chrome extension & Web Studio to capture, intelligently organize, preview, and stitch Google Flow & Veo 2 videos into high-quality films directly in your browser.",
   "main": "background.js",
   "scripts": {
     "test": "node test-all.js",
@@ -25,13 +25,23 @@
     "url": "https://github.com/leonbathie/flow-video-merger.git"
   },
   "keywords": [
+    "google-flow",
+    "google-veo",
+    "veo",
+    "veo-2",
+    "flow-fx",
+    "google-labs",
+    "ai-video",
+    "ai-video-generator",
+    "video-merger",
+    "video-stitcher",
+    "video-editor",
+    "video-sequencer",
     "chrome-extension",
     "manifest-v3",
-    "google-flow",
-    "veo",
-    "video-editor",
-    "video-merger",
-    "video-sequencer"
+    "4k-boost",
+    "smart-order",
+    "storyboard"
   ],
   "author": "Ousmane Ba <ousmane.ba42@unchk.edu.sn>",
   "license": "MIT",
