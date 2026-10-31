@@ -1,0 +1,48 @@
+name: Build & Release Extension ZIP
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Test Suite
+        run: npm test
+
+      - name: Build Extension ZIP Archive
+        run: node package-zip.js
+
+      - name: Create GitHub Release with Extension ZIP
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          name: "Flow Video Merger & Web Studio ${{ github.ref_name }}"
+          body: |
+            ## 🎬 Flow Video Merger & Web Studio ${{ github.ref_name }}
+            
+            ### 🚀 Quick Start (No Terminal / Git Required):
+            1. Download `flow-video-merger-${{ github.ref_name }}.zip` below.
+            2. Unzip the archive.
+            3. In Google Chrome, go to `chrome://extensions/` and turn on **Developer mode** (top right).
+            4. Click **Load unpacked** (top left) and select the unzipped folder.
+            5. Pin 📌 the extension and start merging your [Google Flow](https://flow.google/) clips in 4K!
+          files: |
+            flow-video-merger-*.zip
+            flow-video-merger-extension.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

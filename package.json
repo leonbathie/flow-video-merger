@@ -18,7 +18,9 @@
     "test:pipeline": "node test-flow-retrieval-pipeline.js",
     "test:boost": "node test-break-and-verify.js",
     "test:autoclose": "node test-sidepanel-auto-close-on-studio-open.js",
-    "test:dialogs": "node test-dialogs-and-translations.js"
+    "test:dialogs": "node test-dialogs-and-translations.js",
+    "package": "node package-zip.js",
+    "build:zip": "node package-zip.js"
   },
   "repository": {
     "type": "git",
@@ -26,22 +28,30 @@
   },
   "keywords": [
     "google-flow",
+    "google-flow-extension",
     "google-veo",
     "veo",
     "veo-2",
     "flow-fx",
     "google-labs",
+    "google-deepmind",
     "ai-video",
     "ai-video-generator",
+    "ai-video-editor",
+    "ai-filmmaking",
     "video-merger",
     "video-stitcher",
     "video-editor",
     "video-sequencer",
+    "video-joiner",
     "chrome-extension",
+    "browser-extension",
     "manifest-v3",
     "4k-boost",
     "smart-order",
-    "storyboard"
+    "storyboard",
+    "fusion-video",
+    "montage-video"
   ],
   "author": "Ousmane Ba <ousmane.ba42@unchk.edu.sn>",
   "license": "MIT",

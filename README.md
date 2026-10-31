@@ -1,10 +1,11 @@
-# 🎬 Flow Video Merger & Web Studio ⚡
+# 🎬 Google Flow Video Merger & Web Studio ⚡
 
 <p align="center">
   <img src="icons/icon128.png" alt="Flow Video Merger Logo" width="96" height="96" />
 </p>
 
-<h3 align="center">The #1 Free, Open-Source Video Sequencer & Stitcher for Google Flow, Veo & Veo 2</h3>
+<h3 align="center">The #1 Free, Open-Source Video Sequencer, Stitcher & 4K Exporter for Google Flow, Veo & Veo 2</h3>
+<h4 align="center">L'extension Chrome n°1 pour assembler et fusionner vos vidéos Google Flow en 4K</h4>
 
 <p align="center">
   <strong>Transform scattered Google Flow AI clips into seamless, cinematic 4K films in 1-click.</strong><br/>
@@ -12,29 +13,48 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/leonbathie/flow-video-merger/archive/refs/heads/main.zip">
+    <img src="https://img.shields.io/badge/⚡_DOWNLOAD_EXTENSION_(ZIP)-00C853?style=for-the-badge&logo=googlechrome&logoColor=white" height="42" alt="Direct Download ZIP" />
+  </a>
+  <a href="https://github.com/leonbathie/flow-video-merger/releases">
+    <img src="https://img.shields.io/badge/📦_RELEASES_&_CHANGELOG-2563EB?style=for-the-badge&logo=github&logoColor=white" height="42" alt="GitHub Releases" />
+  </a>
+</p>
+
+<p align="center">
   <a href="https://github.com/leonbathie/flow-video-merger/stargazers"><img src="https://img.shields.io/github/stars/leonbathie/flow-video-merger?style=for-the-badge&logo=github&color=FFD700" alt="GitHub Stars" /></a>
-  <a href="https://github.com/leonbathie/flow-video-merger/releases"><img src="https://img.shields.io/github/v/release/leonbathie/flow-video-merger?style=for-the-badge&color=blue" alt="Latest Release" /></a>
+  <a href="https://github.com/leonbathie/flow-video-merger/releases"><img src="https://img.shields.io/badge/Release-v1.2.0-007ACC?style=for-the-badge&logo=github" alt="Latest Release v1.2.0" /></a>
   <a href="manifest.json"><img src="https://img.shields.io/badge/Chrome_Extension-Manifest_V3-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Chrome MV3" /></a>
   <a href="https://flow.google"><img src="https://img.shields.io/badge/Compatible-Google_Flow_%7C_Veo_%7C_Veo_2-0F9D58?style=for-the-badge&logo=google&logoColor=white" alt="Google Flow & Veo Compatible" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge" alt="MIT License" /></a>
-  <a href="#-automated-test-suite"><img src="https://img.shields.io/badge/Tests-14%2F14_Passing_100%25-brightgreen?style=for-the-badge" alt="Tests 100% Passing" /></a>
+  <a href="#automated-tests"><img src="https://img.shields.io/badge/Tests-14%2F14_Passing_100%25-brightgreen?style=for-the-badge" alt="Tests 100% Passing" /></a>
+  <img src="https://img.shields.io/badge/Language-English_%7C_Français-FF6F00?style=for-the-badge" alt="Bilingual EN/FR" />
   <img src="https://img.shields.io/badge/Privacy-100%25_Local_Client--Side-blueviolet?style=for-the-badge" alt="100% Local Privacy" />
 </p>
 
 ---
 
+> 🌐 **Bilingual / Bilingue** : Full English & French documentation included.
+>
+> **EN**: The official open-source Chrome Extension & Web Studio for **Google Flow** (`flow.google`, `labs.google/fx/tools/flow`) and **Google Veo / Veo 2**. Automatically detect 4K `/boost` assets, sequence scenes with AI narrative logic, preview with zero buffering, and stitch cinematic films with native audio directly in your browser.
+>
+> **FR** : L'extension Chrome & Studio Web n°1 pour **Google Flow** et **Google Veo 2**. Détectez automatiquement vos clips 4K `/boost`, ordonnez vos scènes avec l'IA narrative, prévisualisez en direct et fusionnez vos vidéos haute définition avec l'audio natif Veo directement dans votre navigateur.
+
+---
+
 <p align="center">
-  <a href="#-quick-start-installation-30-seconds"><b>🚀 Quick Install (30s)</b></a> •
-  <a href="#-why-flow-video-merger-the-problem--the-solution"><b>💡 Why This Tool?</b></a> •
-  <a href="#-comparison-flow-video-merger-vs-traditional-editors"><b>📊 Comparison</b></a> •
-  <a href="#-key-features"><b>✨ Features</b></a> •
-  <a href="#-fullscreen-web-studio-preview"><b>🖥️ Web Studio</b></a> •
-  <a href="#-faq--troubleshooting-google--github-search"><b>❓ FAQ & SEO</b></a> •
-  <a href="#-documentation-en-français"><b>🇫🇷 En Français</b></a>
+  <a href="#quick-start"><b>🚀 Direct Download & Install</b></a> •
+  <a href="#why-this-tool"><b>💡 Why This Tool?</b></a> •
+  <a href="#comparison"><b>📊 Comparison</b></a> •
+  <a href="#features"><b>✨ Features</b></a> •
+  <a href="#studio"><b>🖥️ Web Studio</b></a> •
+  <a href="#seo-faq"><b>❓ FAQ & Search Guide</b></a> •
+  <a href="#documentation-francaise"><b>🇫🇷 Documentation Française</b></a>
 </p>
 
 ---
 
+<a id="why-this-tool"></a>
 ## 💡 Why Flow Video Merger? (The Problem & The Solution)
 
 If you create AI videos with **Google Flow** (`flow.google`, `labs.google/fx/tools/flow`) powered by **Google Veo & Veo 2**, you know the pain:
@@ -51,6 +71,7 @@ If you create AI videos with **Google Flow** (`flow.google`, `labs.google/fx/too
 
 ---
 
+<a id="comparison"></a>
 ## 📊 Comparison: Flow Video Merger vs Traditional Editors
 
 | Feature | Default Google Flow | CapCut / Premiere / DaVinci | FFmpeg CLI | **Flow Video Merger & Studio** 🚀 |
@@ -67,6 +88,7 @@ If you create AI videos with **Google Flow** (`flow.google`, `labs.google/fx/too
 
 ---
 
+<a id="studio"></a>
 ## 🖥️ Fullscreen Web Studio Preview
 
 Flow Video Merger provides two fluid workspaces: a lightweight **Chrome Side Panel** for quick captures, and a desktop-grade **Fullscreen Web Studio** (`studio.html`):
@@ -94,6 +116,7 @@ Flow Video Merger provides two fluid workspaces: a lightweight **Chrome Side Pan
 
 ---
 
+<a id="features"></a>
 ## ✨ Key Features
 
 ### 1. ⚡ Full Support for `/boost` 4K & Upscaled Clips
@@ -139,21 +162,22 @@ Automatically reconstructs logical video sequences using five complementary anal
 
 ---
 
+<a id="quick-start"></a>
 ## 🚀 Quick Start Installation (30 Seconds)
 
-### Method 1: Download Ready-to-Use ZIP (Recommended for Creators)
+### ⚡ Method 1: Instant 1-Click ZIP (Recommended for All Creators)
 
 No command line, Git, or Node.js required:
 
-1. Click **[⬇️ Download Latest Release ZIP](https://github.com/leonbathie/flow-video-merger/releases)** (or download this repo as ZIP via the green **Code ➔ Download ZIP** button above).
-2. Unzip the downloaded file onto your computer (e.g. in your `Downloads` or `Documents` folder).
+1. **[👉 Download Extension ZIP Immediately](https://github.com/leonbathie/flow-video-merger/archive/refs/heads/main.zip)** (Direct download of `flow-video-merger-main.zip`) — or get the latest packaged `.zip` from the **[Releases Page](https://github.com/leonbathie/flow-video-merger/releases)**.
+2. Unzip the downloaded `.zip` file onto your computer (e.g. in your `Downloads` or `Documents` folder).
 3. Open Google Chrome and type `chrome://extensions/` into the URL address bar.
 4. Enable the **Developer mode** toggle in the top-right corner.
 5. Click the **Load unpacked** (*Charger l'extension non empaquetée*) button on the top-left.
-6. Select the unzipped `flow-video-merger-extension` folder.
-7. Click the **Extensions puzzle piece** icon in Chrome and **Pin 📌 Flow Video Merger** to your toolbar.
+6. Select the unzipped folder (the folder containing `manifest.json`).
+7. Click the **Extensions puzzle piece** icon in Chrome and **Pin 📌 Flow Video Merger** to your toolbar!
 
-### Method 2: For Developers (Git Clone)
+### 💻 Method 2: For Developers (Git Clone)
 
 ```bash
 # Clone the repository
@@ -163,11 +187,15 @@ cd flow-video-merger
 # Run automated verification tests
 npm test
 
+# Build production ZIP archive
+npm run package
+
 # Load the folder in chrome://extensions/ with Developer Mode turned ON
 ```
 
 ---
 
+<a id="howto"></a>
 ## 🎯 How to Use (Step-by-Step Guide)
 
 1. **Open Google Flow**: Navigate to [flow.google](https://flow.google/) (or `labs.google/fx/tools/flow`) and open your video project.
@@ -190,6 +218,7 @@ npm test
 
 ---
 
+<a id="shortcuts"></a>
 ## ⌨️ Keyboard Shortcuts (Web Studio)
 
 | Shortcut Key | Action |
@@ -206,6 +235,7 @@ npm test
 
 ---
 
+<a id="structure"></a>
 ## 📂 Repository Structure
 
 ```
@@ -217,12 +247,15 @@ flow-video-merger/
 ├── rules.json                # declarativeNetRequest rules for Cross-Origin isolation
 ├── smart-order.js            # Multi-signal AI sequencing engine
 ├── i18n.js                   # Bilingual dictionary (English & French)
+├── dialog.js                 # Modern custom modal dialogs & alerts
+├── dialog.css                # Dialog modal stylesheet
 ├── sidepanel.html            # Chrome Side Panel markup
 ├── sidepanel.css             # Side Panel styles (Arc/Linear dark theme)
 ├── sidepanel.js              # Side Panel controller & assembler
 ├── studio.html               # Fullscreen Web Studio interface
 ├── studio.css                # Web Studio styles (Storyboard & Timeline)
 ├── studio.js                 # Web Studio controller, scrubber & merger
+├── package-zip.js            # Cross-platform production ZIP packager
 ├── icons/                    # Vector-rendered extension icons (16, 48, 128px)
 ├── package.json              # Project metadata & npm test scripts
 ├── .gitignore                # Git exclusions (OS files, Chrome metadata, packages)
@@ -233,6 +266,7 @@ flow-video-merger/
 
 ---
 
+<a id="automated-tests"></a>
 ## 🧪 Automated Test Suite
 
 Every module is rigorously tested using Node.js without requiring a browser runner:
@@ -256,6 +290,7 @@ node test-all.js
 
 ---
 
+<a id="permissions"></a>
 ## 🔒 Manifest V3 Permissions Transparency
 
 Flow Video Merger adheres strictly to the principle of least privilege:
@@ -271,9 +306,24 @@ Flow Video Merger adheres strictly to the principle of least privilege:
 
 ---
 
-## ❓ FAQ & Troubleshooting (Google & GitHub Search)
+<a id="seo-faq"></a>
+## ❓ FAQ & Search Discoverability Guide (Google & GitHub Search)
 
-<details>
+### 🔍 Search Queries & Intent Index (SEO)
+If you found this repository through Google, GitHub, Reddit, or YouTube, you likely searched for:
+- **"How to merge multiple clips in Google Flow"** ➔ Flow Video Merger provides instant 1-click sequence capture and automated browser stitching.
+- **"Google Veo video merger / stitcher Chrome extension"** ➔ Built specifically for Veo & Veo 2 models on Google Flow (`flow.google`).
+- **"Google Flow timeline editor & continuous player"** ➔ Web Studio (`studio.html`) provides a multi-track storyboard, ruler timeline, and continuous preview.
+- **"Google Flow 4K /boost upscale download and assembly"** ➔ Detects full-resolution 4K assets in storage buckets and upgrades drafts automatically.
+- **"Fix net::ERR_BLOCKED_BY_RESPONSE.NotSameSite Google Flow"** ➔ Built-in declarativeNetRequest CORP bypass unblocks video loading.
+- **"Comment fusionner les vidéos Google Flow"** ➔ Extension gratuite pour assembler et exporter vos générations Veo en film 4K avec audio.
+- **"Assembler des clips Google Veo 2"** ➔ Moteur narratif IA (`smart-order.js`) qui organise automatiquement l'ordre dramatique des plans.
+
+---
+
+### Frequently Asked Questions
+
+<details open>
 <summary><strong>Q: How do I merge multiple Google Flow clips into one continuous video?</strong></summary>
 
 Install Flow Video Merger, open [Google Flow](https://flow.google/), click the extension icon to open the Side Panel or Web Studio, click **🔍 Capture Flow clips**, then click **🎬 Merge & Export Video**. The extension stitches all clips into a single video file directly in your browser.
@@ -311,13 +361,11 @@ Google Cloud video storage applies strict Cross-Origin Read Blocking (CORP). Flo
 
 ---
 
-## 🇫🇷 Documentation en Français
+<a id="documentation-francaise"></a>
+## 🇫🇷 Documentation Française
 
-<details>
-<summary><strong>Cliquez ici pour lire la documentation complète en français</strong></summary>
-
-### Présentation
-**Flow Video Merger & Web Studio** est l'extension Chrome (Manifest V3) incontournable pour tous les créateurs utilisant **Google Flow** (`flow.google`, `labs.google/fx/tools/flow`) et **Google Veo / Veo 2**.
+### Présentation Générale
+**Google Flow Video Merger & Web Studio** est l'extension Chrome (Manifest V3) open-source indispensable pour tous les créateurs de films et prompt artists utilisant **Google Flow** (`flow.google`, `labs.google/fx/tools/flow`) et les modèles **Google Veo & Veo 2**.
 
 Elle résout le principal manque de Google Flow : l'absence d'outil d'assemblage et de banc de montage séquentiel. En 1 clic, elle détecte vos générations, récupère les rendus **`/boost` 4K**, ordonne les scènes grâce à son **moteur narratif IA**, vous permet de visualiser la séquence continue avec le lecteur **"Lire Tout"**, et exporte un film complet haute définition avec **l'audio natif Veo** synchronisé.
 
@@ -332,25 +380,25 @@ Elle résout le principal manque de Google Flow : l'absence d'outil d'assemblage
 
 ---
 
-### Installation Express en 3 Étapes (30 secondes)
-1. **Téléchargez le ZIP** : Cliquez sur le bouton vert **Code ➔ Download ZIP** en haut de cette page (ou sur la [page Releases](https://github.com/leonbathie/flow-video-merger/releases)).
-2. **Dézippez le dossier** sur votre ordinateur (par exemple dans `Téléchargements`).
+### 📥 Téléchargement & Installation Express (30 secondes)
+1. **[👉 Cliquez ici pour Télécharger l'Extension en ZIP](https://github.com/leonbathie/flow-video-merger/archive/refs/heads/main.zip)** (ou depuis la [page Releases](https://github.com/leonbathie/flow-video-merger/releases)).
+2. **Dézippez le dossier** sur votre ordinateur (par exemple dans votre dossier `Téléchargements`).
 3. **Dans Google Chrome** :
-   - Rendez-vous sur `chrome://extensions/`.
-   - Activez le **Mode développeur** (en haut à droite).
-   - Cliquez sur **Charger l'extension non empaquetée** (en haut à gauche).
-   - Sélectionnez le dossier dézippé `flow-video-merger-extension`.
-   - Épinglez 📌 l'icône dans votre barre Chrome !
+   - Ouvrez un nouvel onglet et entrez : `chrome://extensions/`
+   - Activez le bouton **Mode développeur** en haut à droite.
+   - Cliquez sur **Charger l'extension non empaquetée** (*Load unpacked*) en haut à gauche.
+   - Sélectionnez le dossier dézippé contenant `manifest.json`.
+   - Cliquez sur l'icône puzzle 🧩 de Chrome et **Épinglez 📌 Flow Video Merger** dans votre barre d'outils !
 
 ---
 
-### Comment l'utiliser
-1. Ouvrez [Google Flow](https://flow.google/) et créez vos scènes.
-2. Ouvrez le **Panneau Latéral** ou cliquez sur **⛶ Ouvrir le Studio Web**.
-3. Cliquez sur **🔍 Capturer les clips Flow** (ou cliquez sur les badges `+ Séquence` sur vos cartes de génération).
-4. Cliquez sur **✨ Réordonner avec l'IA** pour structurer l'histoire.
-5. Appuyez sur **Espace** pour lancer la prévisualisation continue ("Lire Tout").
-6. Choisissez votre résolution (4K UHD ou Shorts 9:16) et cliquez sur **🎬 Fusionner & Exporter la vidéo**.
+### Comment l'utiliser avec Google Flow
+1. Rendez-vous sur [flow.google](https://flow.google/) et ouvrez votre projet de génération.
+2. Cliquez sur l'icône de l'extension pour ouvrir le **Panneau Latéral**, ou cliquez sur **⛶ Ouvrir le Studio Web**.
+3. Cliquez sur **🔍 Capturer les clips Flow** (ou utilisez les badges `+ Séquence` sur vos cartes).
+4. Cliquez sur **✨ Réordonner avec l'IA** pour aligner automatiquement la chronologie et l'arc dramatique.
+5. Appuyez sur **Espace** pour lancer la prévisualisation continue ("Lire Tout") avec la règle temporelle.
+6. Choisissez votre format (4K UHD 16:9 ou Shorts 9:16) et cliquez sur **🎬 Fusionner & Exporter la vidéo**. Le fichier final se télécharge directement !
 
 ---
 
@@ -361,8 +409,6 @@ Elle résout le principal manque de Google Flow : l'absence d'outil d'assemblage
 - `Début` (`Home`) : Revenir au clip `#01`
 - `Suppr` / `Retour Arrière` : Supprimer le clip sélectionné de la séquence
 - `Échap` : Désélectionner / Fermer le tiroir d'explications IA
-
-</details>
 
 ---
 
