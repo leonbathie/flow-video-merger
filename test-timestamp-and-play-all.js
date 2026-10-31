@@ -267,9 +267,21 @@ async function simulateSequencePlayback(clips, shouldFailClipIndex = -1) {
 
   await playLoop(0);
 
-  // Wait for all clips to complete
-  await new Promise(r => setTimeout(r, 150));
-  return { playedIndices, isPlayingSequence };
+  // Wait for all clips to complete cleanly without timer jitter race condition
+  return new Promise((resolve) => {
+    let timeoutId;
+    const checkInterval = setInterval(() => {
+      if (!isPlayingSequence) {
+        clearInterval(checkInterval);
+        clearTimeout(timeoutId);
+        resolve({ playedIndices, isPlayingSequence });
+      }
+    }, 5);
+    timeoutId = setTimeout(() => {
+      clearInterval(checkInterval);
+      resolve({ playedIndices, isPlayingSequence });
+    }, 2000);
+  });
 }
 
 (async () => {

@@ -13,6 +13,10 @@ const frIndexPath = path.join(docsDir, 'fr', 'index.html');
 const robotsPath = path.join(docsDir, 'robots.txt');
 const sitemapPath = path.join(docsDir, 'sitemap.xml');
 const nojekyllPath = path.join(docsDir, '.nojekyll');
+const rootNojekyllPath = path.join(__dirname, '.nojekyll');
+const googleVerificationFileName = 'googlefd5c26f9cd7a8142.html';
+const docsVerificationPath = path.join(docsDir, googleVerificationFileName);
+const rootVerificationPath = path.join(__dirname, googleVerificationFileName);
 const icon128Path = path.join(docsDir, 'icons', 'icon128.png');
 const icon48Path = path.join(docsDir, 'icons', 'icon48.png');
 const icon16Path = path.join(docsDir, 'icons', 'icon16.png');
@@ -24,11 +28,14 @@ assert(fs.existsSync(frIndexPath), 'docs/fr/index.html must exist for Google Fra
 assert(fs.existsSync(robotsPath), 'docs/robots.txt must exist');
 assert(fs.existsSync(sitemapPath), 'docs/sitemap.xml must exist');
 assert(fs.existsSync(nojekyllPath), 'docs/.nojekyll must exist');
+assert(fs.existsSync(rootNojekyllPath), 'root .nojekyll must exist');
+assert(fs.existsSync(docsVerificationPath), `docs/${googleVerificationFileName} must exist for Google Search Console HTML file verification`);
+assert(fs.existsSync(rootVerificationPath), `${googleVerificationFileName} must exist in repository root`);
 assert(fs.existsSync(icon128Path), 'docs/icons/icon128.png must exist for favicon and OG preview');
 assert(fs.existsSync(icon48Path), 'docs/icons/icon48.png must exist');
 assert(fs.existsSync(icon16Path), 'docs/icons/icon16.png must exist');
 assert(fs.existsSync(pagesWorkflowPath), '.github/workflows/pages.yml must exist');
-console.log('  ✅ 1. All core docs/ files, French pages, icons, and GitHub Actions workflow exist');
+console.log('  ✅ 1. All core docs/ files, French pages, icons, verification files, and GitHub Actions workflow exist');
 
 // 2. robots.txt verification
 const robotsContent = fs.readFileSync(robotsPath, 'utf8');
@@ -134,5 +141,18 @@ const frSoftwareApp = frJsonLd['@graph'].find(item => item['@type'] === 'Softwar
 assert(frSoftwareApp && frSoftwareApp.name === 'flow-video-merger', 'French SoftwareApplication must be valid');
 assert(frSoftwareApp.inLanguage === 'fr-FR', 'French SoftwareApplication must declare inLanguage="fr-FR"');
 console.log('  ✅ 8. docs/fr/index.html: French SEO, canonical, reciprocal hreflang, and JSON-LD verified');
+
+// 9. Google Search Console Verification (HTML file and meta tag methods)
+const expectedVerificationContent = 'google-site-verification: googlefd5c26f9cd7a8142.html';
+const docsVerificationContent = fs.readFileSync(docsVerificationPath, 'utf8').trim();
+const rootVerificationContent = fs.readFileSync(rootVerificationPath, 'utf8').trim();
+assert.strictEqual(docsVerificationContent, expectedVerificationContent, 'docs/googlefd5c26f9cd7a8142.html must contain exact verification string');
+assert.strictEqual(rootVerificationContent, expectedVerificationContent, 'root googlefd5c26f9cd7a8142.html must contain exact verification string');
+
+// Meta tag verification
+const metaTag = '<meta name="google-site-verification" content="googlefd5c26f9cd7a8142" />';
+assert(htmlContent.includes(metaTag), 'docs/index.html must include google-site-verification meta tag');
+assert(frHtmlContent.includes(metaTag), 'docs/fr/index.html must include google-site-verification meta tag');
+console.log('  ✅ 9. Google Search Console: HTML verification files (docs & root) and meta tags (EN & FR) verified');
 
 console.log('🎉 test-seo-and-landing-page.js: ALL TESTS PASSED!\n');
